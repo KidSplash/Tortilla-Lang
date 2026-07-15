@@ -1,0 +1,7 @@
+# ninja log v6
+4	1385	1784131473341216397	CMakeFiles/Tortilla.dir/error.cpp.o	44a6a62ba348d9d3
+4	2055	1784131473340900903	CMakeFiles/Tortilla.dir/lexer.cpp.o	958d0cf5baadf915
+7	1632	1784132677000983246	CMakeFiles/Tortilla.dir/AST.cpp.o	d86169b3e0d224f1
+7	1682	1784132677001229491	CMakeFiles/Tortilla.dir/parser.cpp.o	c3bc02f72ac05fdb
+8	1456	1784133397192663085	CMakeFiles/Tortilla.dir/main.cpp.o	622524ac2f037c16
+1457	1557	1784133398641194271	Tortilla	b830c204f3c73684
