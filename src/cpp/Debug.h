@@ -9,8 +9,6 @@
 
 inline void decodeNode(std::unique_ptr<Node> node);
 
-
-
 inline void decodeAssign(AssignNode* node) {
     std::cout << "Var Assigned " << node->name << " (" << fromDataType[node->DT] << ", ";
     decodeNode(std::move(node->value));
