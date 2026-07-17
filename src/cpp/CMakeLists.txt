@@ -16,5 +16,7 @@ add_executable(Tortilla
         parser.cpp
         Common.h
         Debug.h
+        Semantic.h
+        Semantic.cpp
 
 )

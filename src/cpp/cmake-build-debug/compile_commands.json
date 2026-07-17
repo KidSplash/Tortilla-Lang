@@ -28,5 +28,11 @@
   "command": "/usr/bin/c++ -g -std=gnu++2b -arch arm64 -fcolor-diagnostics -o CMakeFiles/Tortilla.dir/parser.cpp.o -c /Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/parser.cpp",
   "file": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/parser.cpp",
   "output": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o"
+},
+{
+  "directory": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug",
+  "command": "/usr/bin/c++ -g -std=gnu++2b -arch arm64 -fcolor-diagnostics -o CMakeFiles/Tortilla.dir/Semantic.cpp.o -c /Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/Semantic.cpp",
+  "file": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/Semantic.cpp",
+  "output": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o"
 }
 ]

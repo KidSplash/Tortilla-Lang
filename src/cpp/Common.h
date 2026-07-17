@@ -5,7 +5,6 @@
 #include <variant>
 #include <string>
 #include <unordered_map>
-//#include <typeinfo>
 #include <iostream>
 
 enum class Kind {
@@ -53,6 +52,7 @@ public:
     Token(Kind k, const Val &v, int l);
 };
 
+//Lexer to Parser Maps
 inline bool isDataType (Keyword word) {
     switch (word) {
         case Keyword::_int:
@@ -86,6 +86,7 @@ inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Null, "null"},
     {DataType::None, "none"}
 };
+
 inline std::unordered_map<Val, int> BPChart {
     {Keyword::_and, 20},
     {Keyword::_or, 20},
@@ -113,6 +114,7 @@ inline std::unordered_map<Val, int> BPChart {
     {Operator::Lbrc, 100},
     {Operator::Lpar, 100},
 };
+
 inline std::unordered_map<Kind, std::string> fromKind {
     {Kind::Assigner, "Assigner"},
     {Kind::Operator, "Operator"},
@@ -124,6 +126,7 @@ inline std::unordered_map<Kind, std::string> fromKind {
     {Kind::Str, "Str"},
     {Kind::Stop, "Stop"}
 };
+
 inline std::unordered_map<std::string, Keyword> keywords {
         {"is", Keyword::_is},
         {"not", Keyword::_not},
@@ -202,6 +205,7 @@ inline std::unordered_map<Keyword, std::string> fromKeywords {
         {Keyword::_label, "label"},
         {Keyword::_goto, "goto"},
     };
+
 inline Operator getSingOp(char c) {
     switch(c) {
         case '+': return Operator::Plus;
@@ -304,7 +308,6 @@ inline std::unordered_map<Operator, std::string> fromOperator {
     {Operator::BitNot, "!"}
 };
 
-
 //Decoding
 inline void decodeToken(Token token) {
     std::cout << fromKind[token.kind];
@@ -326,6 +329,3 @@ inline void decodeTokens(std::vector<Token> tokens) {
 }
 
 #endif
-
-//TODO: Make sure VarNode only needs a name input
-//TODO: Finish Phase 1 of Parser and then move onto Hoisters, Name Checker, Type Checker
