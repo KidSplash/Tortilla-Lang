@@ -37,7 +37,6 @@ inline void decodeBasic(BasicNode* node) {
 }
 inline void decodeVar(VarNode* node) {
     std::cout << "Var " << node->name << "(";
-    decodeNode(std::move(node->value));
     std::cout << ")";
 }
 

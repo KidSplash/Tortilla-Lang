@@ -57,7 +57,6 @@ public:
 class VarNode : public Node {
 public:
     std::string name;
-    std::unique_ptr<Node> value;
     explicit VarNode(int l, std::string n);
 };
 

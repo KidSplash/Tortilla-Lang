@@ -28,19 +28,28 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Began AST Debugger. Found bug in Pratt Parser.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Finished AST Debugger. Parser is finished.">
+      <change afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Common.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Common.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Debug.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-2218a6d4f88f8f3aba79.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/index-2026-07-15T16-46-27-0547.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/target-Tortilla-Debug-ebb1f3796243f68870c9.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/lexer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/lexer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/compile_commands.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/compile_commands.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +160,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Tortilla" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tortilla" TARGET_NAME="Tortilla" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tortilla" RUN_TARGET_NAME="Tortilla">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -192,15 +206,8 @@
       <workItem from="1784066108544" duration="17232000" />
       <workItem from="1784133983827" duration="1787000" />
       <workItem from="1784145672078" duration="10000" />
-      <workItem from="1784149949013" duration="7763000" />
-    </task>
-    <task id="LOCAL-00006" summary="Mar 18">
-      <option name="closed" value="true" />
-      <created>1773891279647</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1773891279647</updated>
+      <workItem from="1784149949013" duration="8423000" />
+      <workItem from="1784302016916" duration="8122000" />
     </task>
     <task id="LOCAL-00007" summary="Mar 18">
       <option name="closed" value="true" />
@@ -586,7 +593,15 @@
       <option name="project" value="LOCAL" />
       <updated>1784135426080</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Finished AST Debugger. Parser is finished.">
+      <option name="closed" value="true" />
+      <created>1784253915999</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1784253916000</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -632,7 +647,8 @@
     <MESSAGE value="Made a function to print lexer output. And turned all string_view variables into strings." />
     <MESSAGE value="Debugged Pratt Parser and wrote an parser debugger to log nodes to console." />
     <MESSAGE value="Began AST Debugger. Found bug in Pratt Parser." />
-    <option name="LAST_COMMIT_MESSAGE" value="Began AST Debugger. Found bug in Pratt Parser." />
+    <MESSAGE value="Finished AST Debugger. Parser is finished." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished AST Debugger. Parser is finished." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
