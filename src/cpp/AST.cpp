@@ -19,7 +19,8 @@ BinOpNode::BinOpNode (int l, Val o, std::unique_ptr<Node> li, std::unique_ptr<No
     exprLeft = std::move(li);
     exprRight = std::move(r);
 }
-UnOpNode::UnOpNode (int l, Val o, std::unique_ptr<Node> e) : Node(l) {
+UnOpNode::UnOpNode (int l, Val o, std::unique_ptr<Node> e, bool isOp) : Node(l) {
+    isOpKey = isOp;
     oper = std::move(o);
     expr = std::move(e);
 }

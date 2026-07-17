@@ -13,7 +13,11 @@ int a = 0
 int b = a + 5
 a += b * -10
 char c = "h"
+bool question = true
+question = not question
+thisisafloat -= 17.1
 )";
+
     std::vector<Token> tokens = tokenize(code);
     //decodeTokens(tokens);
     //std::cout << "\n\n";

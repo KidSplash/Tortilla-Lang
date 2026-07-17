@@ -46,7 +46,8 @@ class UnOpNode : public Node {
 public:
     Val oper;
     std::unique_ptr<Node> expr;
-    explicit UnOpNode(int l, Val o, std::unique_ptr<Node> e);
+    bool isOpKey;
+    explicit UnOpNode(int l, Val o, std::unique_ptr<Node> e, bool isOp);
 };
 class BasicNode : public Node {
 public:

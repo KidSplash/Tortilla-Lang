@@ -9,7 +9,7 @@
 
 PrgmNode parse(const std::vector<Token>& code);
 std::unique_ptr<Node> parseState(const std::vector<Token>& code, int& i);
-std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i);
+std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i, const std::string &output = "", DataType DTdefault = DataType::None);
 std::unique_ptr<VarNode> parseVar(const std::vector<Token>& code, int& i);
 std::unique_ptr<Node> pratt(const std::vector<Token>& code, int& i, int minBP);
 /*

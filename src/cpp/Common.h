@@ -16,7 +16,8 @@ enum class Kind {
     Int,
     Float,
     Bool,
-    Str
+    Str,
+    Stop
 };
 enum class Operator {
     Plus, Times, Minus, Divide, Mod,
@@ -39,7 +40,7 @@ enum class Keyword {
     _goto
 };
 enum class DataType {
-    Int, Bool, Bigint, Float, Doub, Char, Null,
+    Int, Bool, Bigint, Float, Doub, Char, Null, None,
 };
 
 using Val = std::variant<std::string, Operator, Assigner, Keyword, int>;
@@ -73,7 +74,7 @@ inline std::unordered_map<Keyword, DataType> toDataType {
         {Keyword::_doub, DataType::Doub},
         {Keyword::_char, DataType::Char},
         {Keyword::_bool, DataType::Bool},
-        {Keyword::_null, DataType::Null}
+        {Keyword::_null, DataType::Null},
 };
 inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Int, "int"},
@@ -83,16 +84,9 @@ inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Float, "float"},
     {DataType::Doub, "doub"},
     {DataType::Null, "null"},
+    {DataType::None, "none"}
 };
 inline std::unordered_map<Val, int> BPChart {
-    {Assigner::Assign, 10},
-    {Assigner::PlusEql, 10},
-    {Assigner::MinusEql, 10},
-    {Assigner::TimesEql, 10},
-    {Assigner::DivideEql, 10},
-    {Assigner::ModEql, 10},
-    {Assigner::Inc, 10},
-    {Assigner::Dec, 10},
     {Keyword::_and, 20},
     {Keyword::_or, 20},
     {Keyword::_xor, 20},
@@ -128,6 +122,7 @@ inline std::unordered_map<Kind, std::string> fromKind {
     {Kind::Var, "Var"},
     {Kind::Keyword, "Keyword"},
     {Kind::Str, "Str"},
+    {Kind::Stop, "Stop"}
 };
 inline std::unordered_map<std::string, Keyword> keywords {
         {"is", Keyword::_is},
@@ -326,7 +321,6 @@ inline void decodeTokens(std::vector<Token> tokens) {
     int i = 0;
     while (i < tokens.size()) {
         decodeToken(tokens[i]);
-
         ++i;
     }
 }

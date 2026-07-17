@@ -12,10 +12,15 @@ inline void decodeNode(std::unique_ptr<Node> node);
 inline void decodeAssign(AssignNode* node) {
     std::cout << "Var Assigned " << node->name << " (" << fromDataType[node->DT] << ", ";
     decodeNode(std::move(node->value));
-    std::cout << ")";
+    std::cout << ")\n";
 }
 inline void decodeUnOp(UnOpNode* node) {
-    std::cout << "( " << fromOperator[std::get<Operator>(node->oper)];
+    if (node->isOpKey == true) {
+        std::cout << "(" << fromKeywords[std::get<Keyword>(node->oper)] << " ";
+    }
+    else {
+        std::cout << "(" << fromOperator[std::get<Operator>(node->oper)] << " ";
+    }
     decodeNode(std::move(node->expr));
     std::cout << ")";
 }
@@ -38,6 +43,7 @@ inline void decodeVar(VarNode* node) {
 
 inline void decodeAST(PrgmNode node) {
     int i = 0;
+    std::cout << "\n";
     while (i < node.list.size()) {
         decodeNode(std::move(node.list[i]));
         ++i;
@@ -45,20 +51,19 @@ inline void decodeAST(PrgmNode node) {
 }
 
 inline void decodeNode(std::unique_ptr<Node> node) {
-    std::cout << "\n";
-    if (auto* ptr = dynamic_cast<AssignNode*>(node.get())) {
+    if (dynamic_cast<AssignNode*>(node.get())) {
         decodeAssign(static_cast<AssignNode*>(node.release()));
     }
-    else if (auto* ptr = dynamic_cast<BasicNode*>(node.get())) {
+    else if (dynamic_cast<BasicNode*>(node.get())) {
         decodeBasic(static_cast<BasicNode*>(node.release()));
     }
-    else if (auto* ptr = dynamic_cast<UnOpNode*>(node.get())) {
+    else if (dynamic_cast<UnOpNode*>(node.get())) {
         decodeUnOp(static_cast<UnOpNode*>(node.release()));
     }
-    else if (auto* ptr = dynamic_cast<BinOpNode*>(node.get())) {
+    else if (dynamic_cast<BinOpNode*>(node.get())) {
         decodeBinOp(static_cast<BinOpNode*>(node.release()));
     }
-    else if (auto* ptr = dynamic_cast<VarNode*>(node.get())) {
+    else if (dynamic_cast<VarNode*>(node.get())) {
         decodeVar(static_cast<VarNode*>(node.release()));
     }
 }

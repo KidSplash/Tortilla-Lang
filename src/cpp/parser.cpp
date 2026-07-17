@@ -3,6 +3,7 @@
 
 PrgmNode parse (const std::vector<Token>& code) {
     int i = 0;
+
     PrgmNode out(0, {});
     while (i < code.size()) {
         out.list.push_back(parseState(code, i));
@@ -16,16 +17,40 @@ std::unique_ptr<Node> parseState(const std::vector<Token>& code, int& i) {
             return parseAssign(code, i);
         }
     }
+    else if (code.at(i).kind == Kind::Stop) {
+        ++i;
+        return std::make_unique<Node>(code.at(i - 1).line);
+    }
+    else if (code.at(i).kind == Kind::Var && code.at(i + 1).kind == Kind::Assigner) {
+        return parseAssign(code, i, "?", DataType::Null);
+    }
     return pratt(code, i, 0);
 }
-std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i) {
-    std::cout << "Assign <" << fromKeywords[std::get<Keyword>(code.at(i).val)] << ">";
+std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i, const std::string &output, DataType DTdefault) {
+    std::string outputDT;
+    if (output == "") {
+        outputDT = fromKeywords[std::get<Keyword>(code.at(i).val)];
+    }
+    else {
+        outputDT = output;
+    }
+    std::cout << "Assign <" << outputDT << ">";
+
+    DataType DT;
+    if (DTdefault == DataType::None) {
+        DT = toDataType.at(std::get<Keyword>(code.at(i).val));
+    }
+    else {
+        DT = DTdefault;
+    }
+
     int line = code.at(i).line;
-    DataType DT = toDataType.at(std::get<Keyword>(code.at(i).val));
     std::string Name;
     Assigner Asig;
     std::unique_ptr<Node> val = nullptr;
-    ++i; //past datatype
+    if (output == "") {
+        ++i; //past datatype
+    }
     std::cout << "[" << std::get<std::string>(code.at(i).val) << "] (";
     if (code.at(i).kind == Kind::Var) {
         Name = std::get<std::string>(code.at(i).val);
@@ -37,7 +62,8 @@ std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i) 
     ++i; //pass var name
     if (code.at(i).kind == Kind::Assigner) {
         Asig = std::get<Assigner>(code.at(i).val);
-        val = parseState(code, i);
+        ++i; //pass assigner
+        val = pratt(code, i, 0);
     }
     else {
         Asig = Assigner::None;
@@ -68,6 +94,9 @@ std::unique_ptr<VarNode> parseVar(const std::vector<Token> &code, int& i) {
 }
 
 std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int minBP) {
+    if (code.at(i).kind == Kind::Stop) {
+        return std::make_unique<BasicNode>(code.at(i).line, Kind::Stop);
+    }
     std::cout << "Pratt(";
     int lineNum = code.at(i).line;
     Val val = code.at(i).val;
@@ -87,7 +116,7 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
             std::cout << " unOp ";
             ++i; // pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<UnOpNode>(lineNum, val, std::move(right));
+            left = std::make_unique<UnOpNode>(lineNum, val, std::move(right), false);
         }
     }
     else if (auto* keyPtr = std::get_if<Keyword>(&code.at(i).val)) {
@@ -95,19 +124,20 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
             std::cout << " unOp ";
             ++i; //pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<UnOpNode>(code.at(i).line, code.at(i).val, std::move(right));
+            left = std::make_unique<UnOpNode>(code.at(i).line, val, std::move(right), true);
         }
     }
     bool loopCheck = i < code.size();
     while (loopCheck == true) {
-        if (BPChart.contains(code.at(i).val)) {
+        if (BPChart.contains(code.at(i).val) == true) {
             int bp = BPChart.at(code.at(i).val);
             if (minBP <= bp) {
                 std::cout << " (Y) ";
+                int atOperator = i;
                 ++i; //pass operator
                 right = pratt(code, i, bp);
                 if (i < code.size()) {
-                    left = std::make_unique<BinOpNode>(code.at(i).line, code.at(i).val, std::move(left), std::move(right));
+                    left = std::make_unique<BinOpNode>(code.at(i).line, code.at(atOperator).val, std::move(left), std::move(right));
                 }
                 else {
                     left = std::move(right);

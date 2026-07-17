@@ -16,7 +16,6 @@ vector<Token> tokenize(const string& code) {
     char qot = ' ';  //Quotation Type for Strings
     vector<Token> tokens;
     string value;
-    //code += " ";  //Adds an ending space to the code so that the index does not go out of bounds
 
     while (i < code.length()) {
         //Increment line
@@ -141,5 +140,6 @@ vector<Token> tokenize(const string& code) {
             i += 1;
         }
     }
+    tokens.push_back(Token(Kind::Stop, "", 0));
     return tokens;
 }
