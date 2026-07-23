@@ -88,14 +88,14 @@ std::unique_ptr<VarNode> parseVar(const std::vector<Token> &code, int& i) {
         }
     }
     if (i >= code.size()) {
-        return std::make_unique<VarNode>(line, name);
+        return std::make_unique<VarNode>(line, name, DataType::None);
     }
-    return std::make_unique<VarNode>(line, name);
+    return std::make_unique<VarNode>(line, name, DataType::None);
 }
 
 std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int minBP) {
     if (code.at(i).kind == Kind::Stop) {
-        return std::make_unique<BasicNode>(code.at(i).line, Kind::Stop);
+        return std::make_unique<BasicNode>(code.at(i).line, Kind::Stop, "", DataType::None);
     }
     std::cout << "Pratt(";
     int lineNum = code.at(i).line;
@@ -103,7 +103,7 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
     std::unique_ptr<Node> left = nullptr;
     std::unique_ptr<Node> right = nullptr;
     if (code.at(i).kind == Kind::Int || code.at(i).kind == Kind::Float || code.at(i).kind == Kind::Bool || code.at(i).kind == Kind::Str) {
-        left = std::make_unique<BasicNode>(code.at(i).line, code.at(i).kind);
+        left = std::make_unique<BasicNode>(code.at(i).line, code.at(i).kind, std::get<std::string>(code.at(i).val), kindToDataType[code.at(i).kind]);
         std::cout << " num ";
         //pass num
         ++i;
@@ -116,7 +116,7 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
             std::cout << " unOp ";
             ++i; // pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<UnOpNode>(lineNum, val, std::move(right), false);
+            left = std::make_unique<UnOpNode>(lineNum, val, std::move(right), false, DataType::None);
         }
     }
     else if (auto* keyPtr = std::get_if<Keyword>(&code.at(i).val)) {
@@ -124,7 +124,7 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
             std::cout << " unOp ";
             ++i; //pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<UnOpNode>(code.at(i).line, val, std::move(right), true);
+            left = std::make_unique<UnOpNode>(code.at(i).line, val, std::move(right), true, DataType::None);
         }
     }
     bool loopCheck = i < code.size();
@@ -137,7 +137,11 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
                 ++i; //pass operator
                 right = pratt(code, i, bp);
                 if (i < code.size()) {
-                    left = std::make_unique<BinOpNode>(code.at(i).line, code.at(atOperator).val, std::move(left), std::move(right));
+                    bool isOpKey = false;
+                    if (code.at(atOperator).kind == Kind::Keyword) {
+                        isOpKey = true;
+                    }
+                    left = std::make_unique<BinOpNode>(code.at(i).line, code.at(atOperator).val, std::move(left), std::move(right), isOpKey, DataType::None);
                 }
                 else {
                     left = std::move(right);

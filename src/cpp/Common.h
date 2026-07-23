@@ -76,6 +76,13 @@ inline std::unordered_map<Keyword, DataType> toDataType {
         {Keyword::_bool, DataType::Bool},
         {Keyword::_null, DataType::Null},
 };
+inline std::unordered_map<Kind, DataType> kindToDataType {
+    {Kind::Bool, DataType::Bool},
+    {Kind::Int, DataType::Int},
+    {Kind::Float, DataType::Float},
+    {Kind::Str, DataType::Char},
+    {Kind::Stop, DataType::None}
+};
 inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Int, "int"},
     {DataType::Bigint, "bigint"},

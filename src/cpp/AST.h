@@ -40,24 +40,30 @@ public:
     Val oper;
     std::unique_ptr<Node> exprLeft;
     std::unique_ptr<Node> exprRight;
-    explicit BinOpNode(int l, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r);
+    bool isOpKey;
+    DataType DT;
+    explicit BinOpNode(int l, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType dt);
 };
 class UnOpNode : public Node {
 public:
     Val oper;
     std::unique_ptr<Node> expr;
     bool isOpKey;
-    explicit UnOpNode(int l, Val o, std::unique_ptr<Node> e, bool isOp);
+    DataType DT;
+    explicit UnOpNode(int l, Val o, std::unique_ptr<Node> e, bool isOp, DataType dt);
 };
 class BasicNode : public Node {
 public:
-    Kind value;
-    explicit BasicNode(int l, Kind v);
+    Kind type;
+    std::string value;
+    DataType DT;
+    explicit BasicNode(int l, Kind t, std::string v, DataType dt);
 };
 class VarNode : public Node {
 public:
     std::string name;
-    explicit VarNode(int l, std::string n);
+    DataType DT;
+    explicit VarNode(int l, std::string n, DataType dt);
 };
 
 #endif

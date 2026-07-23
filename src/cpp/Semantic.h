@@ -21,4 +21,11 @@ void nameCheckUnOp(UnOpNode* node, std::unordered_map<std::string, Variable>& va
 void nameCheckBinOp(BinOpNode* node, std::unordered_map<std::string, Variable>& vars);
 void nameCheckVar(VarNode* node, std::unordered_map<std::string, Variable>& vars);
 
+void typeCheckAST(PrgmNode node);
+DataType typeCheckNode(std::unique_ptr<Node> node);
+void typeCheckAssign(AssignNode* node);
+DataType typeCheckUnOp(UnOpNode* node);
+DataType typeCheckBinOp(BinOpNode* node);
+DataType typeCheckBasic(BasicNode* node);
+
 #endif

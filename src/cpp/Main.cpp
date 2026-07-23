@@ -26,10 +26,11 @@ thisisafloat -= 17.1
     ast = parse(tokens);
     //decodeAST(std::move(ast));
     std::unordered_map<std::string, Variable> vars = nameCheckAST(std::move(ast));
-
     //for (const auto& [key, value] : vars) {
         //std::cout << key << "\n";
     //}
+
+
 
     return 0;
 }

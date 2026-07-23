@@ -33,7 +33,7 @@ inline void decodeBinOp(BinOpNode* node) {
 }
 
 inline void decodeBasic(BasicNode* node) {
-    std::cout << "Basic (" << fromKind[node->value] << ")";
+    std::cout << "Basic (" << fromKind[node->type] << ")";
 }
 inline void decodeVar(VarNode* node) {
     std::cout << "Var " << node->name << "(";
