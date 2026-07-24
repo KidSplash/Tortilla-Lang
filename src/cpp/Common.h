@@ -20,7 +20,8 @@ enum class Kind {
 };
 enum class Operator {
     Plus, Times, Minus, Divide, Mod, BitNot, BitAnd, BitXor, BitOr,
-    //Lpar, Rpar, Lbrc, Rbrc, Lbrkt, Rbrkt, Then, Point, Semi, Comma,
+    //Lpar, Rpar, Lbrc, Rbrc, Lbrkt, Rbrkt, Point, Semi, Comma,
+    Then,
     More, Less, None, Power, Shl, Shr, Gte, Lte,
 };
 enum class Assigner {
@@ -39,6 +40,14 @@ enum class Keyword {
 enum class DataType {
     Int, Bool, Bigint, Float, Doub, Char, Null, None,
 };
+enum class Pass {
+    Lexer,
+    DecodeTokens,
+    Parser,
+    DecodeAST,
+    NameCheck,
+    TypeCheck,
+};
 
 using Val = std::variant<std::string, Operator, Assigner, Keyword, int>;
 
@@ -50,6 +59,10 @@ public:
     int column;
     Token(Kind k, const Val &v, int l, int c);
 };
+
+//Global Settings
+//Panic, Hard, and Soft Errors Print
+inline std::vector<bool> errorSettings = {true, true, true};
 
 //Lexer to Parser Maps
 inline bool isDataType (Keyword word) {
@@ -93,6 +106,15 @@ inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::None, "none"}
 };
 
+inline std::unordered_map<Pass, std::string> fromPass {
+    {Pass::Lexer, "Lexer"},
+    {Pass::DecodeAST, "Decode AST"},
+    {Pass::DecodeTokens, "Decode Tokens"},
+    {Pass::NameCheck, "Name Checker"},
+    {Pass::TypeCheck, "Type Checker"},
+    {Pass::Parser, "Parser"},
+};
+
 inline std::unordered_map<Val, int> BPChart {
     {Keyword::_and, 20},
     {Keyword::_or, 20},
@@ -103,8 +125,8 @@ inline std::unordered_map<Val, int> BPChart {
     {Operator::More, 30},
     {Operator::Lte, 30},
     {Operator::Gte, 30},
-    {Keyword::_in, 30},
-    {Keyword::_has, 30},
+    //{Keyword::_in, 30},
+    //{Keyword::_has, 30},
     {Operator::BitAnd, 40},
     {Operator::BitOr, 40},
     {Operator::BitXor, 40},
@@ -116,9 +138,9 @@ inline std::unordered_map<Val, int> BPChart {
     {Operator::Divide, 70},
     {Operator::Times, 70},
     {Operator::Power, 80},
-    {Operator::Point, 100},
-    {Operator::Lbrc, 100},
-    {Operator::Lpar, 100},
+    //{Operator::Point, 100},
+    //{Operator::Lbrc, 100},
+    //{Operator::Lpar, 100},
 };
 
 inline std::unordered_map<Kind, std::string> fromKind {
@@ -136,8 +158,8 @@ inline std::unordered_map<Kind, std::string> fromKind {
 inline std::unordered_map<std::string, Keyword> keywords {
         {"is", Keyword::_is},
         {"not", Keyword::_not},
-        {"in", Keyword::_in},
-        {"has", Keyword::_has},
+        //{"in", Keyword::_in},
+        //{"has", Keyword::_has},
         {"xor", Keyword::_xor},
         {"nor", Keyword::_nor},
         {"and", Keyword::_and},
@@ -148,9 +170,9 @@ inline std::unordered_map<std::string, Keyword> keywords {
         {"float", Keyword::_float},
         {"doub", Keyword::_doub},
         {"char", Keyword::_char},
-        {"str", Keyword::_str},
+        //{"str", Keyword::_str},
         {"bool", Keyword::_bool},
-        {"array", Keyword::_array},
+        /*{"array", Keyword::_array},
         {"set", Keyword::_set},
         {"dict", Keyword::_dict},
         {"class", Keyword::_class},
@@ -170,13 +192,13 @@ inline std::unordered_map<std::string, Keyword> keywords {
         {"const", Keyword::_const},
         {"type", Keyword::_type},
         {"label", Keyword::_label},
-        {"goto", Keyword::_goto},
+        {"goto", Keyword::_goto},*/
     };
 inline std::unordered_map<Keyword, std::string> fromKeywords {
         {Keyword::_is, "is"},
         {Keyword::_not, "not"},
-        {Keyword::_in, "in"},
-        {Keyword::_has, "has"},
+        //{Keyword::_in, "in"},
+        //{Keyword::_has, "has"},
         {Keyword::_xor, "xor", },
         {Keyword::_nor, "nor"},
         {Keyword::_and, "and"},
@@ -187,7 +209,7 @@ inline std::unordered_map<Keyword, std::string> fromKeywords {
         {Keyword::_float, "float"},
         {Keyword::_doub, "doub"},
         {Keyword::_char, "char"},
-        {Keyword::_str, "str"},
+        //{Keyword::_str, "str"},
         {Keyword::_bool, "bool"},
         //{"array", Keyword::_array},
         //{"set", Keyword::_set},
@@ -197,7 +219,7 @@ inline std::unordered_map<Keyword, std::string> fromKeywords {
         //{"if", Keyword::_if},
         //{"elif", Keyword::_elif},
         //{"else", Keyword::_else},
-        {Keyword::_switch, "switch"},
+        /*{Keyword::_switch, "switch"},
         {Keyword::_case, "case"},
         {Keyword::_default, "default"},
         {Keyword::_for, "for"},
@@ -209,7 +231,7 @@ inline std::unordered_map<Keyword, std::string> fromKeywords {
         {Keyword::_const, "const"},
         {Keyword::_type, "type", },
         {Keyword::_label, "label"},
-        {Keyword::_goto, "goto"},
+        {Keyword::_goto, "goto"},*/
     };
 
 inline Operator getSingOp(char c) {
@@ -229,12 +251,12 @@ inline Operator getSingOp(char c) {
         //case ']': return Operator::Rbrc;
         case '<': return Operator::Less;
         case '>': return Operator::More;
-        /*case '{': return Operator::Lbrkt;
-        case '}': return Operator::Rbrkt;
+        //case '{': return Operator::Lbrkt;
+        //case '}': return Operator::Rbrkt;
         case ':': return Operator::Then;
-        case '.': return Operator::Point;
-        case ';': return Operator::Semi;
-        case ',': return Operator::Comma;*/
+        //case '.': return Operator::Point;
+        //case ';': return Operator::Semi;
+        //case ',': return Operator::Comma;
         default: return Operator::None;
     }
 }
@@ -314,7 +336,7 @@ inline std::unordered_map<Operator, std::string> fromOperator {
     {Operator::BitNot, "!"}
 };
 
-//Decoding
+//Debugging
 inline void decodeToken(Token token) {
     std::cout << fromKind[token.kind];
     if (token.kind == Kind::Float || token.kind == Kind::Int

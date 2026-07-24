@@ -1,6 +1,6 @@
 #include "lexer.h"
-#include "error.h"
 #include <cctype>
+#include <iostream>
 using namespace std;
 
 Token::Token(const Kind k, const Val &v, const int l, const int c) {
@@ -43,6 +43,9 @@ vector<Token> tokenize(const string& code) {
                 column += 2;
                 mode = 0;
             }
+            else {
+                ++i;
+            }
         }
         //Normal Mode
         else if (mode == 0) {
@@ -55,7 +58,7 @@ vector<Token> tokenize(const string& code) {
             else if (code[i] == '#') {
                 ++i;
                 ++column;
-                if (i <= code.length() and code[i] == '#') {
+                if (i < code.length() and code[i] == '#') {
                     mode = 2;
                     ++i;
                     ++column;
@@ -146,6 +149,7 @@ vector<Token> tokenize(const string& code) {
             }
             else {
                 //error
+                ++i;
             }
         }
         //Go through String or Comment
@@ -163,7 +167,16 @@ vector<Token> tokenize(const string& code) {
             ++i;
             ++column;
         }
+        else {
+            ++i;
+        }
     }
     tokens.push_back(Token(Kind::Stop, "", 0, 0));
+    if (mode == 2) {
+        errorAdd(error::L01, Pass::Lexer, line, column);
+    }
+    else if (mode == 3) {
+        errorAdd(error::L02, Pass::Lexer, line, column);
+    }
     return tokens;
 }
