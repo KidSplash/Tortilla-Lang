@@ -12,7 +12,7 @@
 
 int main() {
     std::string code = R"(
-##COmment
+int a = 15.5.12
 )";
     //std::cout << std::to_string(code.length()) << " " << code.at(17);
     /*

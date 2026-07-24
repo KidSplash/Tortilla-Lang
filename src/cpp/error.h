@@ -8,6 +8,8 @@
 enum class error {
     L01,
     L02,
+    L03,
+    L04,
 };
 
 class Error {

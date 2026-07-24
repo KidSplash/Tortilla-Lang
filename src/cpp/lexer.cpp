@@ -77,7 +77,11 @@ vector<Token> tokenize(const string& code) {
                 while (i <= code.length() and (isdigit(code[i]) or code[i] == '.')) {
                     if (code[i] == '.'){
                         if (point == true){
-                            //error
+                            errorAdd(error::L03, Pass::Lexer, line, column);
+                            std::string num = std::string(code).substr(start, i - start);
+                            Token curTok = Token(Kind::Float, num, line, column);
+                            tokens.push_back(curTok);
+                            start = i + 1;
                         }
                         point = true;
                     }
@@ -148,7 +152,7 @@ vector<Token> tokenize(const string& code) {
                 tokens.push_back(curTok);
             }
             else {
-                //error
+                errorAdd(error::L04, Pass::Lexer, line, column);
                 ++i;
             }
         }

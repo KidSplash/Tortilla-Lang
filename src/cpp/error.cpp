@@ -18,13 +18,19 @@ void errorAdd(error type, Pass from, int line, int column) {
     int level = 0;
     switch (type) {
         case (error::L01):
-            message.append("Unterminated ## Comment.\n");
+            message.append("Unterminated ## Comment. ");
             break;
         case (error::L02):
-            message.append("Unterminated String.\n");
+            message.append("Unterminated String. ");
+            break;
+        case (error::L03):
+            message.append("Cannot have multiple \".\" in the same number. ");
+            break;
+        case (error::L04):
+            message.append("Unkown Symbol. ");
             break;
         default:
-            message.append("Even we don't know what you did wrong.\n");
+            message.append("Even we don't know what you did wrong. ");
             level = 3;
     }
     message.append("Line: " + std::to_string(line) + ", Column: " + std::to_string(column) + ". In pass " + fromPass[from] + "\n");
