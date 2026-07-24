@@ -3,17 +3,20 @@
 #include <cctype>
 using namespace std;
 
-Token::Token(const Kind k, const Val &v, const int l) {
+Token::Token(const Kind k, const Val &v, const int l, const int c) {
     kind = k;
     val = v;
     line = l;
+    column = c;
 };
 
 vector<Token> tokenize(const string& code) {
     int i = 0;
     int mode = 0; //0 = Normal, 1 = Single-line Comment, 2 = Multi-line Comment, 3 = String
     int line = 0;
-    char qot = ' ';  //Quotation Type for Strings
+    int column = 0;
+    int tabWidth = 2;
+    char qotType = ' ';  //Current quotation Type for Strings
     vector<Token> tokens;
     string value;
 
@@ -21,30 +24,41 @@ vector<Token> tokenize(const string& code) {
         //Increment line
         if (code[i] == '\n') {
             line += 1;
+            column = 0;
+        }
+        if (code[i] == '\t') {
+            column += tabWidth;
         }
 
-        //Comment Removal
+        //Exiting Comments
         if (mode == 1 or mode == 2) {
+            //Escape Single-Line Comment
             if (mode == 1 and code[i] == '\n') {
-                i += 1;
+                ++i;
+                ++column;
                 mode = 0;
-            }
+            }//Escape Multi-Line Comment
             else if (i + 1 < code.length() and code[i] == '#' and code[i + 1] == '#') {
                 i += 2;
+                column += 2;
                 mode = 0;
             }
         }
         //Normal Mode
         else if (mode == 0) {
+            //[]\;,.~@$()_{}:?  <those symbols cannot be used outside of strings (except "." can be used in numbers)
             if (isspace(code[i])) {
-                i += 1;
+                ++i;
+                ++column;
                 if (i > code.length()){ return tokens; }
             }
             else if (code[i] == '#') {
-                i += 1;
+                ++i;
+                ++column;
                 if (i <= code.length() and code[i] == '#') {
                     mode = 2;
-                    i += 1;
+                    ++i;
+                    ++column;
                 }
                 else {
                     mode = 1;
@@ -55,56 +69,65 @@ vector<Token> tokenize(const string& code) {
                 //If point becomes True, number is a float
                 bool point = false;
                 int start = i;
-                i += 1;
+                ++i;
+                ++column;
                 while (i <= code.length() and (isdigit(code[i]) or code[i] == '.')) {
                     if (code[i] == '.'){
                         if (point == true){
-                            addError ("hard", 2, line, {});
+                            //error
                         }
                         point = true;
                     }
-                    i += 1;
+                    ++i;
+                    ++column;
                 }
                 std::string num = std::string(code).substr(start, i - start);
-                Token curTok = Token(point ? Kind::Float : Kind::Int, num, line);
+                Token curTok = Token(point ? Kind::Float : Kind::Int, num, line, column);
                 tokens.push_back(curTok);
             }
             //Starts a String
             else if (code[i] == '`' or code[i] == '\'' or code[i] == '\"') {
                 mode = 3;
                 //Type of quote to look for
-                qot = code[i];
-                i += 1;
+                qotType = code[i];
+                ++i;
+                ++column;
             }
             else if (code[i] == '=' and code[i + 1] != '=') {
-                Token curTok = Token(Kind::Assigner, Assigner::Assign, line);
+                Token curTok = Token(Kind::Assigner, Assigner::Assign, line, column);
                 tokens.push_back(curTok);
                 ++i;
+                ++column;
             }
             else if (getDoubOp(code[i], code[i + 1]) != Operator::None) {
-                Token curTok = Token(Kind::Operator, getDoubOp(code[i], code[i + 1]), line);
+                Token curTok = Token(Kind::Operator, getDoubOp(code[i], code[i + 1]), line, column);
                 tokens.push_back(curTok);
                 i += 2;
+                column += 2;
             }
             else if (getAsig(code[i], code[i + 1]) != Assigner::None) {
-                Token curTok = Token(Kind::Assigner, getAsig(code[i], code[i + 1]), line);
+                Token curTok = Token(Kind::Assigner, getAsig(code[i], code[i + 1]), line, column);
                 tokens.push_back(curTok);
                 i += 2;
+                column += 2;
             }
             else if (getSingOp(code[i]) != Operator::None) {
-                Token curTok = Token(Kind::Operator, getSingOp(code[i]), line);
+                Token curTok = Token(Kind::Operator, getSingOp(code[i]), line, column);
                 tokens.push_back(curTok);
-                i += 1;
+                ++i;
+                ++column;
             }
             else if (isalpha(code[i])) {
                 string word;
                 int start = i;
                 Val token_value;
                 Kind kind;
-                i += 1;
+                ++i;
+                ++column;
                 //Adds characters to the word until it finds a non number, letter, or underspace
                 while (i <= code.length() and (isalnum(code[i]) or code[i] == '_')) {
-                    i += 1;
+                    ++i;
+                    ++column;
                 }
                 if (code.substr(start, i - start) == "true" or code.substr(start, i - start) == "false") {
                     kind = Kind::Bool;
@@ -118,18 +141,18 @@ vector<Token> tokenize(const string& code) {
                     kind = Kind::Var;
                     token_value = code.substr(start, i - start);
                 }
-                Token curTok = Token(kind, token_value, line);
+                Token curTok = Token(kind, token_value, line, column);
                 tokens.push_back(curTok);
             }
             else {
-                addError("soft", 1, line, {to_string(code[i])});
+                //error
             }
         }
-        //String Mode
+        //Go through String or Comment
         else if (i <= code.length()) {
             //Repeats until it finds the correct end quote
-            if (code[i] == qot) {
-                Token curTok = Token(Kind::Str, value, line);
+            if (code[i] == qotType) {
+                Token curTok = Token(Kind::Str, value, line, column);
                 tokens.push_back(curTok);
                 value = " ";
                 mode = 0;
@@ -137,9 +160,10 @@ vector<Token> tokenize(const string& code) {
             else {
                 value += code[i];
             }
-            i += 1;
+            ++i;
+            ++column;
         }
     }
-    tokens.push_back(Token(Kind::Stop, "", 0));
+    tokens.push_back(Token(Kind::Stop, "", 0, 0));
     return tokens;
 }

@@ -19,24 +19,22 @@ enum class Kind {
     Stop
 };
 enum class Operator {
-    Plus, Times, Minus, Divide, Mod,
-    BitNot, BitAnd, BitXor, BitOr, Lpar, Rpar,
-    Lbrc, Rbrc, Lbrkt, Rbrkt, Then, Point, Semi,
-    Comma, More, Less, None, Power,
-    Shl, Shr, Gte, Lte,
+    Plus, Times, Minus, Divide, Mod, BitNot, BitAnd, BitXor, BitOr,
+    //Lpar, Rpar, Lbrc, Rbrc, Lbrkt, Rbrkt, Then, Point, Semi, Comma,
+    More, Less, None, Power, Shl, Shr, Gte, Lte,
 };
 enum class Assigner {
     Assign, Inc, PlusEql, MinusEql,
     Dec, DivideEql, ModEql, None, TimesEql,
 };
 enum class Keyword {
-    _is, _not, _in, _has, _xor, _nor, _and,
-    _or, _null, _int, _bigint, _float, _doub,
-    _char, _str, _bool, _array, _set, _dict,
-    _class, _func, _if, _elif, _else, _switch,
-    _case, _default, _for, _while, _forEach,
-    _return, _out, _self, _const, _type, _label,
-    _goto
+    _is, _not, _xor, _nor, _and,
+    _or, _null, _int, _bigint, _float, _doub, _char, _bool,
+    //_in, _has,
+    //_str, _array, _set, _dict,
+    //_class, _func, _if, _elif, _else, _switch,
+    //_case, _default, _for, _while, _forEach,
+    //_return, _out, _self, _const, _type, _label, _goto
 };
 enum class DataType {
     Int, Bool, Bigint, Float, Doub, Char, Null, None,
@@ -48,8 +46,9 @@ class Token {
 public:
     Kind kind;
     Val val; //Value or specific type e.g. kind = Operator, val = 'Plus'
-    int line; //Line number
-    Token(Kind k, const Val &v, int l);
+    int line;
+    int column;
+    Token(Kind k, const Val &v, int l, int c);
 };
 
 //Lexer to Parser Maps
@@ -224,18 +223,18 @@ inline Operator getSingOp(char c) {
         case '&': return Operator::BitAnd;
         case '^': return Operator::BitXor;
         case '|': return Operator::BitOr;
-        case '(': return Operator::Lpar;
-        case ')': return Operator::Rpar;
-        case '[': return Operator::Lbrc;
-        case ']': return Operator::Rbrc;
+        //case '(': return Operator::Lpar;
+        //case ')': return Operator::Rpar;
+        //case '[': return Operator::Lbrc;
+        //case ']': return Operator::Rbrc;
         case '<': return Operator::Less;
         case '>': return Operator::More;
-        case '{': return Operator::Lbrkt;
+        /*case '{': return Operator::Lbrkt;
         case '}': return Operator::Rbrkt;
         case ':': return Operator::Then;
         case '.': return Operator::Point;
         case ';': return Operator::Semi;
-        case ',': return Operator::Comma;
+        case ',': return Operator::Comma;*/
         default: return Operator::None;
     }
 }
@@ -243,7 +242,7 @@ inline Operator getDoubOp(char first, char second) {
     switch(first) {
         case '*':
             if (second == '*'){ return Operator::Power; }
-            else { return Operator::None; }
+            return Operator::None;
         case '<':
             switch(second) {
             case '=': return Operator::Lte;
@@ -275,13 +274,13 @@ inline Assigner getAsig(char first, char second) {
             }
         case '/':
             if (second == '='){return Assigner::DivideEql; }
-            else { return Assigner::None; }
+            return Assigner::None;
         case '*':
             if (second == '='){ return Assigner::TimesEql; }
-            else { return Assigner::None; }
+            return Assigner::None;
         case '%':
             if (second == '='){ return Assigner::ModEql; }
-            else { return Assigner::None; }
+            return Assigner::None;
         default:
             return Assigner::None;
     }
@@ -293,20 +292,20 @@ inline std::unordered_map<Operator, std::string> fromOperator {
     {Operator::Shl, "<<"},
     {Operator::Power, "**"},
     {Operator::None, "NONE"},
-    {Operator::Rbrkt, "}"},
+    /*{Operator::Rbrkt, "}"},
     {Operator::Lbrkt, "{"},
     {Operator::Rbrc, "]"},
     {Operator::Lbrc, "["},
     {Operator::Rpar, ")"},
-    {Operator::Lpar, "("},
+    {Operator::Lpar, "("},*/
     {Operator::Minus, "-"},
     {Operator::Plus, "+"},
     {Operator::Mod, "%"},
     {Operator::Times, "*"},
     {Operator::Divide, "/"},
-    {Operator::Then, ":"},
-    {Operator::Semi, ";"},
-    {Operator::Comma, ","},
+    //{Operator::Then, ":"},
+    //{Operator::Semi, ";"},
+    //{Operator::Comma, ","},
     {Operator::More, "<"},
     {Operator::Less, "<"},
     {Operator::Lte, "<="},
