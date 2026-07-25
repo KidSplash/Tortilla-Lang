@@ -29,7 +29,7 @@ Tortilla has:
 Tortilla is a general purpose language which has helpful errors and a forgiving type system.
 It compiles to the LLVM, allowing for connection to WASM and speed.
 
-Tortilla is still in Version 0, with a completed Lexer, Parser, AST, and Name Checker written in Python and a Lexer written in C++.
+Tortilla is still in Version 0, with a completed Lexer, Parser, AST, Name Checker, and Type Checker written in C++.
 
 ## Roadmap
 - V0 — Working compiler in C++ by 2027
