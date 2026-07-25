@@ -12,6 +12,8 @@ enum class error {
     L04,
     P01,
     P02,
+    N01,
+    N02,
 };
 
 class Error {

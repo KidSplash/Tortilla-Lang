@@ -35,6 +35,12 @@ void errorAdd(error type, Pass from, int line, int column) {
         case (error::P02):
             message.append("Expected Assignment Operator. ");
             break;
+        case (error::N01):
+            message.append("Variable has already been declared. ");
+            break;
+        case (error::N02):
+            message.append("Variable has not been declared. ");
+            break;
         default:
             message.append("Even we don't know what you did wrong. ");
             level = 3;

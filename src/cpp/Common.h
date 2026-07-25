@@ -98,7 +98,7 @@ inline std::unordered_map<Kind, DataType> kindToDataType {
 inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Int, "int"},
     {DataType::Bigint, "bigint"},
-    {DataType::Bool, "cool"},
+    {DataType::Bool, "bool"},
     {DataType::Char, "char"},
     {DataType::Float, "float"},
     {DataType::Doub, "doub"},
