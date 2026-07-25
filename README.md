@@ -37,4 +37,4 @@ Tortilla is still in Version 0, with a completed Lexer, Parser, AST, and Name Ch
 - V1 — Multiple distribution methods, public release (before Summer 2028)
 - V2 — Standard libraries and more language additions
 
-Link to incomplete documentation: https://github.com/spencerjw10/Tortilla-lang/blob/main/spec/Tortilla-spec.md
+Link to incomplete documentation: https://github.com/KidSplash00/Tortilla-lang/blob/main/spec/Tortilla-spec.md
