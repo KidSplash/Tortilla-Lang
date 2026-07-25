@@ -7,6 +7,27 @@
 #include "Common.h"
 #include "AST.h"
 
+inline void decodeToken(Token token) {
+    std::cout << fromKind[token.kind];
+    if (token.kind == Kind::Float || token.kind == Kind::Int
+|| token.kind == Kind::Bool || token.kind == Kind::Var || token.kind == Kind::Str) {
+        std::cout << ": " << std::get<std::string>(token.val);
+}
+    else if (token.kind == Kind::Keyword) {
+        std::cout << ": " << fromKeywords[std::get<Keyword>(token.val)];
+    }
+    std::cout << "\n";
+}
+inline void decodeTokens(std::vector<Token> tokens) {
+    int i = 0;
+    while (i < tokens.size()) {
+        decodeToken(tokens[i]);
+        ++i;
+    }
+    std::cout << "\n\n";
+}
+
+
 inline void decodeNode(std::unique_ptr<Node> node);
 
 inline void decodeAssign(AssignNode* node) {
@@ -31,7 +52,6 @@ inline void decodeBinOp(BinOpNode* node) {
     decodeNode(std::move(node->exprRight));
     std::cout << ")";
 }
-
 inline void decodeBasic(BasicNode* node) {
     std::cout << "Basic (" << fromKind[node->type] << ")";
 }
@@ -48,7 +68,6 @@ inline void decodeAST(PrgmNode node) {
         ++i;
     }
 }
-
 inline void decodeNode(std::unique_ptr<Node> node) {
     if (dynamic_cast<AssignNode*>(node.get())) {
         decodeAssign(static_cast<AssignNode*>(node.release()));

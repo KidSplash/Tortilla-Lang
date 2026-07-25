@@ -29,6 +29,12 @@ void errorAdd(error type, Pass from, int line, int column) {
         case (error::L04):
             message.append("Unkown Symbol. ");
             break;
+        case (error::P01):
+            message.append("Expected Variable Name. ");
+            break;
+        case (error::P02):
+            message.append("Expected Assignment Operator. ");
+            break;
         default:
             message.append("Even we don't know what you did wrong. ");
             level = 3;

@@ -28,14 +28,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Updated Lexer.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Fixed multiple periods in same number problem in Lexer and finished lexer part of error.h.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/AST.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Common.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Common.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Debug.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" afterDir="false" />
@@ -43,7 +47,7 @@
       <change beforePath="$PROJECT_DIR$/src/cpp/error.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/error.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/lexer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/lexer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/lexer.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/lexer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,23 +206,7 @@
       <workItem from="1784145672078" duration="10000" />
       <workItem from="1784149949013" duration="8423000" />
       <workItem from="1784302016916" duration="8691000" />
-      <workItem from="1784388990550" duration="23746000" />
-    </task>
-    <task id="LOCAL-00010" summary="Mar 19">
-      <option name="closed" value="true" />
-      <created>1773980003151</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1773980003151</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Mar 19">
-      <option name="closed" value="true" />
-      <created>1773980046060</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1773980046060</updated>
+      <workItem from="1784388990550" duration="26693000" />
     </task>
     <task id="LOCAL-00012" summary="Mar 19">
       <option name="closed" value="true" />
@@ -596,7 +584,23 @@
       <option name="project" value="LOCAL" />
       <updated>1784921952630</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Wrote Error skeleton and tested that it works.">
+      <option name="closed" value="true" />
+      <created>1784926289758</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1784926289758</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Fixed multiple periods in same number problem in Lexer and finished lexer part of error.h.">
+      <option name="closed" value="true" />
+      <created>1784927506931</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1784927506931</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -619,8 +623,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Mar 19" />
-    <MESSAGE value="Mar 21" />
     <MESSAGE value="Mar 22" />
     <MESSAGE value="Mar 23" />
     <MESSAGE value="Apr 11" />
@@ -644,7 +646,9 @@
     <MESSAGE value="Wrote Name Checker." />
     <MESSAGE value="Wrote Type Checker." />
     <MESSAGE value="Updated Lexer." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Lexer." />
+    <MESSAGE value="Wrote Error skeleton and tested that it works." />
+    <MESSAGE value="Fixed multiple periods in same number problem in Lexer and finished lexer part of error.h." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed multiple periods in same number problem in Lexer and finished lexer part of error.h." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

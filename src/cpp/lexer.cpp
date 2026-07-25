@@ -70,27 +70,29 @@ vector<Token> tokenize(const string& code) {
             //Checks for Number Literals
             else if (isdigit(code[i])) {
                 //If point becomes True, number is a float
-                bool point = false;
+                int point = 0;
                 int start = i;
                 ++i;
                 ++column;
                 while (i <= code.length() and (isdigit(code[i]) or code[i] == '.')) {
                     if (code[i] == '.'){
-                        if (point == true){
+                        if (point > 0){
                             errorAdd(error::L03, Pass::Lexer, line, column);
                             std::string num = std::string(code).substr(start, i - start);
                             Token curTok = Token(Kind::Float, num, line, column);
                             tokens.push_back(curTok);
                             start = i + 1;
                         }
-                        point = true;
+                        ++point;
                     }
                     ++i;
                     ++column;
                 }
-                std::string num = std::string(code).substr(start, i - start);
-                Token curTok = Token(point ? Kind::Float : Kind::Int, num, line, column);
-                tokens.push_back(curTok);
+                if (point <= 1) {
+                    std::string num = std::string(code).substr(start, i - start);
+                    Token curTok = Token(point ? Kind::Float : Kind::Int, num, line, column);
+                    tokens.push_back(curTok);
+                }
             }
             //Starts a String
             else if (code[i] == '`' or code[i] == '\'' or code[i] == '\"') {

@@ -11,7 +11,8 @@ class Node {
 public:
     virtual ~Node() = default;
     int line;
-    Node(int l);
+    int column;
+    Node(int l, int c);
 };
 class PrgmNode;
 class AssignNode;
@@ -25,7 +26,7 @@ using expression = std::variant<std::string, Node>;
 class PrgmNode : public Node {
 public:
     std::vector<std::unique_ptr<Node>> list;
-    explicit PrgmNode(int l, std::vector<std::unique_ptr<Node>> li);
+    explicit PrgmNode(int l, int c, std::vector<std::unique_ptr<Node>> li);
 };
 class AssignNode : public Node {
 public:
@@ -33,7 +34,7 @@ public:
     std::string name;
     Assigner asig;
     std::unique_ptr<Node> value;
-    explicit AssignNode(int l, DataType d, std::string n, Assigner a, std::unique_ptr<Node> v);
+    explicit AssignNode(int l, int c, DataType d, std::string n, Assigner a, std::unique_ptr<Node> v);
 };
 class BinOpNode : public Node {
 public:
@@ -42,7 +43,7 @@ public:
     std::unique_ptr<Node> exprRight;
     bool isOpKey;
     DataType DT;
-    explicit BinOpNode(int l, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType dt);
+    explicit BinOpNode(int l, int c, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType dt);
 };
 class UnOpNode : public Node {
 public:
@@ -50,20 +51,20 @@ public:
     std::unique_ptr<Node> expr;
     bool isOpKey;
     DataType DT;
-    explicit UnOpNode(int l, Val o, std::unique_ptr<Node> e, bool isOp, DataType dt);
+    explicit UnOpNode(int l, int c, Val o, std::unique_ptr<Node> e, bool isOp, DataType dt);
 };
 class BasicNode : public Node {
 public:
     Kind type;
     std::string value;
     DataType DT;
-    explicit BasicNode(int l, Kind t, std::string v, DataType dt);
+    explicit BasicNode(int l, int c, Kind t, std::string v, DataType dt);
 };
 class VarNode : public Node {
 public:
     std::string name;
     DataType DT;
-    explicit VarNode(int l, std::string n, DataType dt);
+    explicit VarNode(int l, int c, std::string n, DataType dt);
 };
 
 #endif

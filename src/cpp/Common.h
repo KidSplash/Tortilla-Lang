@@ -336,24 +336,4 @@ inline std::unordered_map<Operator, std::string> fromOperator {
     {Operator::BitNot, "!"}
 };
 
-//Debugging
-inline void decodeToken(Token token) {
-    std::cout << fromKind[token.kind];
-    if (token.kind == Kind::Float || token.kind == Kind::Int
-|| token.kind == Kind::Bool || token.kind == Kind::Var || token.kind == Kind::Str) {
-        std::cout << ": " << std::get<std::string>(token.val);
-    }
-    else if (token.kind == Kind::Keyword) {
-        std::cout << ": " << fromKeywords[std::get<Keyword>(token.val)];
-    }
-    std::cout << "\n";
-}
-inline void decodeTokens(std::vector<Token> tokens) {
-    int i = 0;
-    while (i < tokens.size()) {
-        decodeToken(tokens[i]);
-        ++i;
-    }
-}
-
 #endif
