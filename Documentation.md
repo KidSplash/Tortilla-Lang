@@ -54,10 +54,60 @@ int output = num3 + 5   #num3 becomes 0, the default int value, in this equation
 ```
 The null values of every datatype are told in the table seen earlier. The null value of any collection type is an empty collection.
 
+##Operators
+There are 2 main types of Operators:
+- Operators, which cannot change a variable by themselves
+- Assigners, which do change a variable
+
+* Operators can be either symbols (like +) or reserved words (like not)
+
+The Assigners are:
+* =
+* +=
+* -=
+* /=
+* *=
+* %=
+* ++  (Increment)
+* --  (Decrement)
+
+The remaining Operators are split into 3 groups:
+Arithmatic Operators, which return numbers:
+* +
+* -
+* *
+* /
+* %
+* **
+
+Bitwise Operators, which also return numbers:
+* &  And
+* |  Or
+* ^  Xor
+* !  Not
+* <<  Shift Left
+* >>  Shift Right
+
+Logical Operators, which return booleans:
+* not
+* and
+* or
+* xor
+* is
+* has
+* in
+* >
+* <
+* >=
+* <=
+
+The Operator + can also be used to concatenate strings and arrays. 
+
+
+
 To Do: 
 Types
 Strings
-Operators
 Type Conversion
 Arrays
 Dicts
