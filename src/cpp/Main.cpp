@@ -7,9 +7,9 @@
 #include "error.h"
 #include "AST.h"
 #include "parser.h"
-//#include "Semantic.h"
+#include "Semantic.h"
 
-
+//TODO: Fix Name Checker overuse of N01 error. Test Type Checker.
 int main() {
     std::string code = R"(
 #Comment Test
@@ -18,7 +18,7 @@ int main() {
     float c =12
     float d= 4.1
     char word = "a"
-    bool notABool = 0
+    notABool = 0
     bool aBool = false
     a = null
     b += aBool
@@ -52,11 +52,11 @@ int main() {
     //decodeTokens(tokens);
     PrgmNode ast(0, 0, {});
     ast = parse(tokens);
-    decodeAST(std::move(ast));
-    //std::unordered_map<std::string, Variable> vars = nameCheckAST(std::move(ast));
-    //for (const auto& [key, value] : vars) {
-        //std::cout << key << "\n";
-    //}
+    //decodeAST(std::move(ast));
+    std::unordered_map<std::string, Variable> vars = nameCheckAST(std::move(ast));
+    for (const auto& [key, value] : vars) {
+        std::cout << key << "\n";
+    }
     errorsPrint(errorSettings);
 
 

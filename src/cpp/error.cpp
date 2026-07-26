@@ -41,6 +41,12 @@ void errorAdd(error type, Pass from, int line, int column) {
         case (error::N02):
             message.append("Variable has not been declared. ");
             break;
+        case (error::T01):
+            message.append("Variable value doesn't match declared DataType. ");
+            break;
+        case (error::T02):
+            message.append("This Operator cannot operate on non-numbers. ");
+            break;
         default:
             message.append("Even we don't know what you did wrong. ");
             level = 3;

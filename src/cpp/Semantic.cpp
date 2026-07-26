@@ -85,10 +85,24 @@ DataType typeCheckNode(std::unique_ptr<Node> node) {
 }
 void typeCheckAssign(AssignNode* node) {
     if (node->DT != typeCheckNode(std::move(node->value))) {
-        //error: DataTypes do not align
-    }
-    else {
-
+        switch (node->DT) {
+            case(DataType::Bigint):
+                if (typeCheckNode(std::move(node->value)) != DataType::Int) {
+                    node->DT = typeCheckNode(std::move(node->value));
+                }
+                break;
+            case(DataType::Doub):
+                if (typeCheckNode(std::move(node->value)) == DataType::Bigint || typeCheckNode(std::move(node->value)) == DataType::Float) {
+                    break;
+                }
+            case(DataType::Float):
+                if (typeCheckNode(std::move(node->value)) == DataType::Int) {
+                    break;
+                }
+            default:
+                node->DT = typeCheckNode(std::move(node->value));
+        }
+        errorAdd(error::T01, Pass::TypeCheck, node->line, node->column);
     }
 }
 DataType typeCheckUnOp(UnOpNode* node) {
@@ -97,13 +111,14 @@ DataType typeCheckUnOp(UnOpNode* node) {
         if (oper == Keyword::_not) {
             return DataType::Bool;
         }
+        errorAdd(error::A00, Pass::TypeCheck, node->line, node->column);
         return DataType::None;
     }
     DataType out = typeCheckNode(std::move(node->expr));
     if (out == DataType::Bigint || out == DataType::Int || out == DataType::Doub || out == DataType::Float) {
         return out;
     }
-    //error
+    errorAdd(error::T02, Pass::TypeCheck, node->line, node->column);
     return DataType::None;
 }
 DataType typeCheckBinOp(BinOpNode* node) {
@@ -115,7 +130,7 @@ DataType typeCheckBinOp(BinOpNode* node) {
     Operator oper = std::get<Operator>(node->oper);
     if (oper == Operator::Divide) {
         if (left == DataType::Char || right == DataType::Char) {
-            //error
+            errorAdd(error::T02, Pass::TypeCheck, node->line, node->column);
             return DataType::None;
         }
         if (left == DataType::Doub || right == DataType::Doub || left == DataType::Bigint || right == DataType::Bigint) {
@@ -137,6 +152,7 @@ DataType typeCheckBinOp(BinOpNode* node) {
                 return DataType::Char; //TODO: Change to a string once strings are added
                 //TODO: Make a function to check if the left and right values are valid numbers and if so, DT = num, else DT = ???
             }
+            errorAdd(error::T02, Pass::TypeCheck, node->line, node->column);
             return DataType::None;
         }
         if (left == DataType::Doub || right == DataType::Doub) {
