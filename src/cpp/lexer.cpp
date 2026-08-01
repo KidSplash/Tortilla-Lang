@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "error.h"
 #include <cctype>
 #include <iostream>
 using namespace std;
@@ -23,26 +24,25 @@ vector<Token> tokenize(const string& code) {
     while (i < code.length()) {
         //Increment line
         if (code[i] == '\n') {
-            line += 1;
+            ++line;
             column = 0;
         }
-        if (code[i] == '\t') {
+        else if (code[i] == '\t') {
             column += tabWidth;
         }
 
         //Exiting Comments
         if (mode == 1 or mode == 2) {
-            //Escape Single-Line Comment
             if (mode == 1 and code[i] == '\n') {
                 ++i;
                 ++column;
                 mode = 0;
-            }//Escape Multi-Line Comment
-            else if (i + 1 < code.length() and code[i] == '#' and code[i + 1] == '#') {
+            }//Escape Single-Line Comment
+            else if (mode == 2 and i + 1 < code.length() and code[i] == '#' and code[i + 1] == '#') {
                 i += 2;
                 column += 2;
                 mode = 0;
-            }
+            }//Escape Multi-Line Comment
             else {
                 ++i;
             }

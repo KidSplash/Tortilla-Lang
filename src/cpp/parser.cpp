@@ -23,27 +23,22 @@ std::unique_ptr<Node> parseState(const std::vector<Token>& code, int& i) {
         return std::make_unique<Node>(code.at(i - 1).line, code.at(i - 1).column);
     }
     else if (code.at(i).kind == Kind::Var && code.at(i + 1).kind == Kind::Assigner) {
-        return parseAssign(code, i, "?", DataType::Null);
+        return parseAssign(code, i, "?");
     }
     return pratt(code, i, 0);
 }
-std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i, const std::string &output, DataType DTdefault) {
+std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i, const std::string &output) {
     std::string outputDT;
+    DataType DT;
     if (output == "") {
         outputDT = fromKeywords[std::get<Keyword>(code.at(i).val)];
-    }
-    else {
-        outputDT = output;
-    }
-    std::cout << "Assign <" << outputDT << ">";
-
-    DataType DT;
-    if (DTdefault == DataType::None) {
         DT = toDataType.at(std::get<Keyword>(code.at(i).val));
     }
     else {
-        DT = DTdefault;
+        outputDT = output;
+        DT = DataType::None;
     }
+    std::cout << "Assign <" << outputDT << ">";
 
     int line = code.at(i).line;
     int column = code.at(i).column;
@@ -72,7 +67,7 @@ std::unique_ptr<AssignNode> parseAssign(const std::vector<Token>& code, int& i, 
         Asig = Assigner::None;
     }
     std::cout << ")";
-    return std::make_unique<AssignNode>(line, column, DT, Name, Asig, std::move(val));
+    return std::make_unique<AssignNode>(line, column, DT, Name, Asig, std::move(val), (outputDT != "?"));
 }
 std::unique_ptr<VarNode> parseVar(const std::vector<Token> &code, int& i) {
     std::cout << "Var [" << std::get<std::string>(code.at(i).val) << "]";
@@ -112,6 +107,14 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
     }
     else if (code.at(i).kind == Kind::Var) {
         left = parseVar(code, i);
+    }
+    else if (code.at(i).kind == Kind::Keyword) {
+        if (std::get<Keyword>(code.at(i).val) == Keyword::_null) {
+            left = std::make_unique<BasicNode>(code.at(i).line, code.at(i).column, code.at(i).kind, "null", DataType::Null);
+            std::cout << " num ";
+            //pass num
+            ++i;
+        }
     }
     else if (auto* opPtr = std::get_if<Operator>(&code.at(i).val)) {
         if (*opPtr == Operator::Minus || *opPtr == Operator::BitNot) {

@@ -14,6 +14,7 @@ enum class error {
     P02,
     N01,
     N02,
+    N03,
     T01,
     T02,
     T03,

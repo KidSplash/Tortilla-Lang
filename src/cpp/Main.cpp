@@ -13,20 +13,16 @@
 int main() {
     std::string code = R"(
 #Comment Test
-    int a = 0
-    int b = 15.5
-    float c =12
-    float d= 4.1
-    char word = "a"
-    notABool = 0
-    bool aBool = false
-    a = null
-    b += aBool
-    word = word + word
-    ##Heres another
-    comment##
-    aBool = not aBool
-    c = b / a
+int a = 0
+int b = 15.5
+float c = (a + b) * 10
+float d= 4.1
+char e = "a"
+bool f = 0
+bool g = false
+a = null
+b = 10.1
+c = b / a
 )";
     //std::cout << std::to_string(code.length()) << " " << code.at(17);
     /*
@@ -50,13 +46,11 @@ int main() {
 
     std::vector<Token> tokens = tokenize(code);
     //decodeTokens(tokens);
-    PrgmNode ast(0, 0, {});
-    ast = parse(tokens);
-    //decodeAST(std::move(ast));
-    std::unordered_map<std::string, Variable> vars = nameCheckAST(std::move(ast));
-    for (const auto& [key, value] : vars) {
-        std::cout << key << "\n";
-    }
+    PrgmNode ast1(0, 0, {});
+    ast1 = parse(tokens);
+    //decodeAST(std::move(ast1));
+    //struct AST ast2 = nameCheckAST(std::move(ast1));
+    //struct AST ast3 = typeCheckAST(std::move(ast2.ast));
     errorsPrint(errorSettings);
 
 

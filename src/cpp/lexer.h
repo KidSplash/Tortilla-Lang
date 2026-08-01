@@ -2,7 +2,6 @@
 #define TORTILLA_LANG_LEXER_H
 #pragma once
 
-#include "error.h"
 #include "Common.h"
 #include <vector>
 

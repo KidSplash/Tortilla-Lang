@@ -16,11 +16,12 @@ enum class Kind {
     Float,
     Bool,
     Str,
-    Stop
+    Stop,
+    None
 };
 enum class Operator {
     Plus, Times, Minus, Divide, Mod, BitNot, BitAnd, BitXor, BitOr,
-    //Lpar, Rpar, Lbrc, Rbrc, Lbrkt, Rbrkt, Point, Semi, Comma,
+    Lpar, Rpar, //Lbrc, Rbrc, Lbrkt, Rbrkt, Point, Semi, Comma,
     Then,
     More, Less, None, Power, Shl, Shr, Gte, Lte,
 };
@@ -31,6 +32,7 @@ enum class Assigner {
 enum class Keyword {
     _is, _not, _xor, _nor, _and,
     _or, _null, _int, _bigint, _float, _doub, _char, _bool,
+    none,
     //_in, _has,
     //_str, _array, _set, _dict,
     //_class, _func, _if, _elif, _else, _switch,
@@ -42,9 +44,7 @@ enum class DataType {
 };
 enum class Pass {
     Lexer,
-    DecodeTokens,
     Parser,
-    DecodeAST,
     NameCheck,
     TypeCheck,
 };
@@ -58,6 +58,12 @@ public:
     int line;
     int column;
     Token(Kind k, const Val &v, int l, int c);
+};
+class Variable {
+public:
+    DataType DT;
+    bool hasBeenDefined;
+    Variable(DataType dt, bool hbd);
 };
 
 //Global Settings
@@ -74,6 +80,7 @@ inline bool isDataType (Keyword word) {
         case Keyword::_bool:
         case Keyword::_char:
         case Keyword::_null:
+        case Keyword::none:
             return true;
         default:
             return false;
@@ -87,13 +94,15 @@ inline std::unordered_map<Keyword, DataType> toDataType {
         {Keyword::_char, DataType::Char},
         {Keyword::_bool, DataType::Bool},
         {Keyword::_null, DataType::Null},
+        {Keyword::none, DataType::None},
 };
 inline std::unordered_map<Kind, DataType> kindToDataType {
     {Kind::Bool, DataType::Bool},
     {Kind::Int, DataType::Int},
     {Kind::Float, DataType::Float},
     {Kind::Str, DataType::Char},
-    {Kind::Stop, DataType::None}
+    {Kind::None, DataType::None},
+    {Kind::Stop, DataType::None},
 };
 inline std::unordered_map<DataType, std::string> fromDataType {
     {DataType::Int, "int"},
@@ -108,8 +117,6 @@ inline std::unordered_map<DataType, std::string> fromDataType {
 
 inline std::unordered_map<Pass, std::string> fromPass {
     {Pass::Lexer, "Lexer"},
-    {Pass::DecodeAST, "Decode AST"},
-    {Pass::DecodeTokens, "Decode Tokens"},
     {Pass::NameCheck, "Name Checker"},
     {Pass::TypeCheck, "Type Checker"},
     {Pass::Parser, "Parser"},
@@ -141,6 +148,8 @@ inline std::unordered_map<Val, int> BPChart {
     //{Operator::Point, 100},
     //{Operator::Lbrc, 100},
     //{Operator::Lpar, 100},
+    {Operator::None, 0},
+    {Keyword::none, 0},
 };
 
 inline std::unordered_map<Kind, std::string> fromKind {
@@ -152,7 +161,8 @@ inline std::unordered_map<Kind, std::string> fromKind {
     {Kind::Var, "Var"},
     {Kind::Keyword, "Keyword"},
     {Kind::Str, "Str"},
-    {Kind::Stop, "Stop"}
+    {Kind::Stop, "Stop"},
+    {Kind::None, "None"},
 };
 
 inline std::unordered_map<std::string, Keyword> keywords {
@@ -211,6 +221,7 @@ inline std::unordered_map<Keyword, std::string> fromKeywords {
         {Keyword::_char, "char"},
         //{Keyword::_str, "str"},
         {Keyword::_bool, "bool"},
+        {Keyword::none, "NONE"},
         //{"array", Keyword::_array},
         //{"set", Keyword::_set},
         //{"dict", Keyword::_dict},
@@ -245,8 +256,8 @@ inline Operator getSingOp(char c) {
         case '&': return Operator::BitAnd;
         case '^': return Operator::BitXor;
         case '|': return Operator::BitOr;
-        //case '(': return Operator::Lpar;
-        //case ')': return Operator::Rpar;
+        case '(': return Operator::Lpar;
+        case ')': return Operator::Rpar;
         //case '[': return Operator::Lbrc;
         //case ']': return Operator::Rbrc;
         case '<': return Operator::Less;

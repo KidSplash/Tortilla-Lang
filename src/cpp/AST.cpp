@@ -9,11 +9,12 @@ Node::Node(int l, int c) {
 PrgmNode::PrgmNode (int l, int c, std::vector<std::unique_ptr<Node>> li) : Node(l, c) {
     list = std::move(li);
 }
-AssignNode::AssignNode (int l, int c,  DataType d, std::string n, Assigner a, std::unique_ptr<Node> v) : Node(l, c) {
+AssignNode::AssignNode (int l, int c,  DataType d, std::string n, Assigner a, std::unique_ptr<Node> v, bool dec) : Node(l, c) {
     DT = d;
     name = std::move(n);
     asig = a;
     value = std::move(v);
+    declaration = dec;
 }
 BinOpNode::BinOpNode (int l, int c, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType d) : Node(l, c) {
     oper = std::move(o);

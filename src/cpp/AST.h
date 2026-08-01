@@ -34,7 +34,8 @@ public:
     std::string name;
     Assigner asig;
     std::unique_ptr<Node> value;
-    explicit AssignNode(int l, int c, DataType d, std::string n, Assigner a, std::unique_ptr<Node> v);
+    bool declaration;
+    explicit AssignNode(int l, int c, DataType d, std::string n, Assigner a, std::unique_ptr<Node> v, bool dec);
 };
 class BinOpNode : public Node {
 public:
@@ -65,6 +66,11 @@ public:
     std::string name;
     DataType DT;
     explicit VarNode(int l, int c, std::string n, DataType dt);
+};
+
+struct AST {
+    std::unordered_map<std::string, Variable> vars;
+    PrgmNode ast;
 };
 
 #endif

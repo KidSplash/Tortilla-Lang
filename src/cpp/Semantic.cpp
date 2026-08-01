@@ -9,7 +9,7 @@ Variable::Variable(DataType dt, bool hbd) {
 void hoister(PrgmNode node) {}   //Dont need this until add Functions
 
 //Name Checker
-std::unordered_map<std::string, Variable> nameCheckAST(PrgmNode node) {
+AST nameCheckAST(PrgmNode node) {
     int i = 0;
     std::unordered_map<std::string, Variable> vars {};
     while (i < node.list.size()) {
@@ -19,7 +19,7 @@ std::unordered_map<std::string, Variable> nameCheckAST(PrgmNode node) {
         }
         ++i;
     }
-    return vars;
+    return {vars, std::move(node)};
 }
 int nameCheckNode(std::unique_ptr<Node> node, std::unordered_map<std::string, Variable>& vars) {
     if (dynamic_cast<AssignNode*>(node.get())) {
@@ -37,7 +37,15 @@ int nameCheckNode(std::unique_ptr<Node> node, std::unordered_map<std::string, Va
     return 0;
 }
 int nameCheckAssign(AssignNode* node, std::unordered_map<std::string, Variable>& vars) {
+    std::cout << node->name << ":" << fromDataType[node->DT] << "\n";
     if (vars.contains(node->name)) {
+        if (node->declaration == false) {
+            if (node->DT == vars.at(node->name).DT) {
+                return 0;
+            }
+            errorAdd(error::N03, Pass::NameCheck, node->line, node->column);
+            return 1;
+        }
         errorAdd(error::N01, Pass::NameCheck, node->line, node->column);
         return 1;
     }
@@ -61,12 +69,13 @@ int nameCheckVar(VarNode* node, std::unordered_map<std::string, Variable>& vars)
 }
 
 //Type Checker
-void typeCheckAST(PrgmNode node) {
+AST typeCheckAST(AST ast) {
     int i = 0;
-    while (i < node.list.size()) {
-        typeCheckNode(std::move(node.list[i]));
+    while (i < ast.ast.list.size()) {
+        typeCheckNode(std::move(ast.ast.list[i]));
         ++i;
     }
+    return ast;
 }
 DataType typeCheckNode(std::unique_ptr<Node> node) {
     if (dynamic_cast<AssignNode*>(node.get())) {

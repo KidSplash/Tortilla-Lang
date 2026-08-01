@@ -24,7 +24,6 @@ inline void decodeTokens(std::vector<Token> tokens) {
         decodeToken(tokens[i]);
         ++i;
     }
-    std::cout << "\n\n";
 }
 
 
