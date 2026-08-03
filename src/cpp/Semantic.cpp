@@ -63,12 +63,49 @@ int nameCheckVar(VarNode* node, std::unordered_map<std::string, Variable>& vars)
     }
     return 0;
 }
+/*
+expr = anything
+num = int, float, bigint, doub
+col = str, array, dict, set
+
+not: expr > bool
+!: num > num
+
+<, >, <=, >=, is, and, or, xor, nor: expr > bool
++: num > num; col > col; char/str > str
+num:
+/:num > float/doub
+**, *, %, -, >>, <<, |, &, ^: num > num
+
+
+
+in: expr-col > bool
+has: col-expr > bool
++=, -=, *=, /=, %=, =: var-expr > none
+++, –: var- > none
+*/
+
 
 //Type Checker
 AST typeCheckAST(AST ast) {
     int i = 0;
+    AST newAst = {ast.vars, ast.ast};
     while (i < ast.ast.list.size()) {
-        typeCheckNode(std::move(ast.ast.list[i]));
+        newAst = typeCheckNode(std::move(ast.ast.list[i]));
+        ++i;
+    }
+    return ast;
+}
+
+
+
+
+
+AST typeCheckAST(AST ast) {
+    int i = 0;
+    AST newAst = {ast.vars, ast.ast};
+    while (i < ast.ast.list.size()) {
+        newAst = typeCheckNode(std::move(ast.ast.list[i]));
         ++i;
     }
     return ast;

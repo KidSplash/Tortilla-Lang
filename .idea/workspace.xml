@@ -28,21 +28,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Added null to Parser and NameChecker.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Lexer, Parser, and NameChecker work with null, no errors.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/error.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/error.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,15 +192,7 @@
       <workItem from="1784149949013" duration="8423000" />
       <workItem from="1784302016916" duration="8691000" />
       <workItem from="1784388990550" duration="56868000" />
-      <workItem from="1785616946349" duration="5347000" />
-    </task>
-    <task id="LOCAL-00016" summary="Mar 21">
-      <option name="closed" value="true" />
-      <created>1774144905204</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1774144905204</updated>
+      <workItem from="1785616946349" duration="11896000" />
     </task>
     <task id="LOCAL-00017" summary="Mar 21">
       <option name="closed" value="true" />
@@ -592,7 +578,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785545353342</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Lexer, Parser, and NameChecker work with null, no errors.">
+      <option name="closed" value="true" />
+      <created>1785719784981</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1785719784981</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,7 +609,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Jun 1. I refined the lexer files, including making enum classes and using references and pointers. I did not finish aligning Main.cpp with the changes." />
     <MESSAGE value="Jun 2. I fixed a few bugs. Due to the enum classes, the Main.cpp debugger function which prints out the stats of each token is unable to run in its current state." />
     <MESSAGE value="Jun 2. &#10;I fixed a number of errors related to substr() using i instead of i - start.&#10;Fixed bug where I tried to use isspace() to check if any character existed at a specified index. Replaced with code.length()." />
     <MESSAGE value="Created Phase 1 AST Nodes." />
@@ -640,7 +633,8 @@
     <MESSAGE value="Added errors to the Name Checker." />
     <MESSAGE value="Added errors to the Type Checker." />
     <MESSAGE value="Added null to Parser and NameChecker." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added null to Parser and NameChecker." />
+    <MESSAGE value="Lexer, Parser, and NameChecker work with null, no errors." />
+    <option name="LAST_COMMIT_MESSAGE" value="Lexer, Parser, and NameChecker work with null, no errors." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

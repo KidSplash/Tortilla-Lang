@@ -51,7 +51,7 @@ d = "dfads"
     ast1 = parse(tokens);
     //decodeAST(std::move(ast1));
     struct AST ast2 = nameCheckAST(std::move(ast1));
-    //struct AST ast3 = typeCheckAST(std::move(ast2.ast));
+    struct AST ast3 = typeCheckAST(std::move(ast2));
     errorsPrint(errorSettings);
 
 
