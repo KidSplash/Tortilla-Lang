@@ -20,9 +20,10 @@ float d= 4.1
 char e = "a"
 bool f = 0
 bool g = false
-a = null
+a = 15
 b = 10.1
 c = b / a
+d = "dfads"
 )";
     //std::cout << std::to_string(code.length()) << " " << code.at(17);
     /*
@@ -49,7 +50,7 @@ c = b / a
     PrgmNode ast1(0, 0, {});
     ast1 = parse(tokens);
     //decodeAST(std::move(ast1));
-    //struct AST ast2 = nameCheckAST(std::move(ast1));
+    struct AST ast2 = nameCheckAST(std::move(ast1));
     //struct AST ast3 = typeCheckAST(std::move(ast2.ast));
     errorsPrint(errorSettings);
 

@@ -40,11 +40,7 @@ int nameCheckAssign(AssignNode* node, std::unordered_map<std::string, Variable>&
     std::cout << node->name << ":" << fromDataType[node->DT] << "\n";
     if (vars.contains(node->name)) {
         if (node->declaration == false) {
-            if (node->DT == vars.at(node->name).DT) {
-                return 0;
-            }
-            errorAdd(error::N03, Pass::NameCheck, node->line, node->column);
-            return 1;
+            return 0;
         }
         errorAdd(error::N01, Pass::NameCheck, node->line, node->column);
         return 1;

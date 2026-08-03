@@ -123,6 +123,27 @@ std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int mi
             right = pratt(code, i, 90);
             left = std::make_unique<UnOpNode>(lineNum, columnNum, val, std::move(right), false, DataType::None);
         }
+        else if (*opPtr == Operator::Lpar) {
+            std::vector<std::unique_ptr<Node>> elems = {};
+            bool escape = true;
+            bool commas = false;
+            ++i;
+            while (escape) {
+                elems.push_back(pratt(code, i, 0));
+                if (auto* opPtr2 = std::get_if<Operator>(&code.at(i).val)) {
+                    ++i;
+                    if (*opPtr2 == Operator::Rpar) {
+                        escape = false;
+                    }
+                    else {
+                        commas = true;
+                    }
+                }
+                if (not commas) {
+                    left = std::move(elems.at(0));
+                }
+            }
+        }
     }
     else if (auto* keyPtr = std::get_if<Keyword>(&code.at(i).val)) {
         if (*keyPtr == Keyword::_not) {

@@ -28,18 +28,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Added errors to the Type Checker.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Added null to Parser and NameChecker.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/Common.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Common.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Debug.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" afterDir="false" />
@@ -48,10 +42,7 @@
       <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/error.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/error.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/error.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/lexer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/lexer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/lexer.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/lexer.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,11 +159,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -211,15 +197,8 @@
       <workItem from="1784145672078" duration="10000" />
       <workItem from="1784149949013" duration="8423000" />
       <workItem from="1784302016916" duration="8691000" />
-      <workItem from="1784388990550" duration="56825000" />
-    </task>
-    <task id="LOCAL-00015" summary="Mar 21">
-      <option name="closed" value="true" />
-      <created>1774142992621</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1774142992621</updated>
+      <workItem from="1784388990550" duration="56868000" />
+      <workItem from="1785616946349" duration="5347000" />
     </task>
     <task id="LOCAL-00016" summary="Mar 21">
       <option name="closed" value="true" />
@@ -605,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785037789700</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Added null to Parser and NameChecker.">
+      <option name="closed" value="true" />
+      <created>1785545353342</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1785545353342</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="May 29. I removed all usage of &quot;col&quot;, and the tokens no longer counts the column it is in." />
     <MESSAGE value="Jun 1. I refined the lexer files, including making enum classes and using references and pointers. I did not finish aligning Main.cpp with the changes." />
     <MESSAGE value="Jun 2. I fixed a few bugs. Due to the enum classes, the Main.cpp debugger function which prints out the stats of each token is unable to run in its current state." />
     <MESSAGE value="Jun 2. &#10;I fixed a number of errors related to substr() using i instead of i - start.&#10;Fixed bug where I tried to use isspace() to check if any character existed at a specified index. Replaced with code.length()." />
@@ -653,7 +639,8 @@
     <MESSAGE value="Added errors to the Parser." />
     <MESSAGE value="Added errors to the Name Checker." />
     <MESSAGE value="Added errors to the Type Checker." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added errors to the Type Checker." />
+    <MESSAGE value="Added null to Parser and NameChecker." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added null to Parser and NameChecker." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
