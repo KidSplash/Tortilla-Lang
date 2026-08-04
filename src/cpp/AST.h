@@ -45,7 +45,6 @@ public: //Assign, BinOp, UnOp, Basic
         DataType dt1=DataType::None, DataType dt2=DataType::None, std::string n="",
         node n1={}, node n2={}, bool s=false, Assigner a=Assigner::None, Val o={});
 };
-
 class PrgmNode {
 public:
     int line;
@@ -54,10 +53,8 @@ public:
     std::vector<Variable> variables;
     explicit PrgmNode(int l, int c, std::vector<node> li, std::vector<Variable> v);
 };
-
 struct AST {
-    std::unordered_map<std::string, Variable> vars;
-    PrgmNode ast;
+    PrgmNode prgm;
+    std::unordered_map<std::string, Variable> globals;
 };
-
 #endif

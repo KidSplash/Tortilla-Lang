@@ -6,7 +6,8 @@
 #include "error.h"
 #include "AST.h"
 #include "parser.h"
-
+#include "Semantic.h"
+//TODO: Use std::unique_ptr<Node> instead of variant node in all cases
 int main() {
     std::string code = R"(
 #Comment Test
@@ -46,7 +47,8 @@ d = "dfads"
     //decodeTokens(tokens);
     PrgmNode ast1(0, 0, {}, {});
     ast1 = parse(tokens);
-    //struct AST ast2 = nameCheckAST(std::move(ast1));
+    std::unordered_map<std::string, Variable> globals = {};
+    AST ast2 = nameCheckPrgm(std::move(ast1), globals);
     //struct AST ast3 = typeCheckAST(std::move(ast2));
     errorsPrint(errorSettings);
 

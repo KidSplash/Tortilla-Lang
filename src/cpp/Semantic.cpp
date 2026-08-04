@@ -1,11 +1,76 @@
 #include "Semantic.h"
 #include "error.h"
 
-/*Variable::Variable(DataType dt, bool hbd) {
+Variable::Variable(DataType dt, bool hbd) {
     DT = dt;
     hasBeenDefined = hbd;
-};
+}
 
+AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable> globalVars) {
+    int i = 0;
+    std::unordered_map<std::string, Variable> vars {};
+    while (i < prgm.list.size()) {
+        const auto& child = std::get<std::unique_ptr<Node>>(prgm.list[i]);
+        if (child) {
+            if (nameCheckNode(*child, globalVars) != 0) {
+                prgm.list.erase(prgm.list.begin() + i);
+            }
+        }
+        ++i;
+    }
+    return {std::move(prgm), globalVars};
+}
+int nameCheckNode(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+    switch (self.type) {
+        case(nodeType::Assign):
+            return nameCheckAssign(self, globalVars);
+        case(nodeType::Var):
+            return nameCheckVar(self, globalVars);
+        case(nodeType::BinOp):
+            return nameCheckBinOp(self, globalVars);
+        case(nodeType::UnOp):
+            return nameCheckUnOp(self, globalVars);
+        default:
+            return 0;
+    }
+}
+int nameCheckAssign(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+    int out = 0;
+    if (globalVars.contains(self.text)) {
+        if (self.spec == true) {
+            errorAdd(error::N01, Pass::NameCheck, self.line, self.column);
+            return 1;
+        }
+        const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
+        out = nameCheckNode(*child, globalVars);
+        return out;
+    }
+    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
+    out = nameCheckNode(*child, globalVars);
+    globalVars.insert({self.text, Variable(self.DT1, true)});
+    return out;
+}
+int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+    int out = 0;
+    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
+    out = nameCheckNode(*child, globalVars);
+    const auto& child2 = std::get<std::unique_ptr<Node>>(self.node2);
+    out += nameCheckNode(*child2, globalVars);
+    return out;
+}
+int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
+    return nameCheckNode(*child, globalVars);
+}
+int nameCheckVar(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+    if (!globalVars.contains(self.text)) {
+        errorAdd(error::N02, Pass::NameCheck, self.line, self.column);
+        globalVars.insert({self.text, Variable(DataType::None, true)});
+    }
+    return 0;
+}
+
+/*
 void hoister(PrgmNode node) {}   //Dont need this until add Functions
 
 //Name Checker
@@ -20,22 +85,7 @@ AST nameCheckAST(PrgmNode node) {
         ++i;
     }
     return {vars, std::move(node)};
-}
-int nameCheckNode(std::unique_ptr<Node> node, std::unordered_map<std::string, Variable>& vars) {
-    if (dynamic_cast<AssignNode*>(node.get())) {
-        return nameCheckAssign(static_cast<AssignNode*>(node.release()), vars);
-    }
-    if (dynamic_cast<UnOpNode*>(node.get())) {
-        nameCheckUnOp(static_cast<UnOpNode*>(node.release()), vars);
-    }
-    else if (dynamic_cast<BinOpNode*>(node.get())) {
-        nameCheckBinOp(static_cast<BinOpNode*>(node.release()), vars);
-    }
-    else if (dynamic_cast<VarNode*>(node.get())) {
-        return nameCheckVar(static_cast<VarNode*>(node.release()), vars);
-    }
-    return 0;
-}
+}*//*
 int nameCheckAssign(AssignNode* node, std::unordered_map<std::string, Variable>& vars) {
     std::cout << node->name << ":" << fromDataType[node->DT] << "\n";
     if (vars.contains(node->name)) {

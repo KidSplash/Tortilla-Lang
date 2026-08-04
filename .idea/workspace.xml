@@ -28,27 +28,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Redesigned AST.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Redesigned Parser.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/Common.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Common.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/Debug.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/AST.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/error.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/lexer.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/parser.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,15 +190,7 @@
       <workItem from="1784302016916" duration="8691000" />
       <workItem from="1784388990550" duration="56868000" />
       <workItem from="1785616946349" duration="12592000" />
-      <workItem from="1785795372246" duration="8665000" />
-    </task>
-    <task id="LOCAL-00019" summary="Mar 22">
-      <option name="closed" value="true" />
-      <created>1774215707597</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1774215707597</updated>
+      <workItem from="1785795372246" duration="12450000" />
     </task>
     <task id="LOCAL-00020" summary="Mar 22">
       <option name="closed" value="true" />
@@ -599,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785810534539</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Redesigned Parser.">
+      <option name="closed" value="true" />
+      <created>1785818600184</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1785818600184</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -622,7 +607,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Created Phase 1 AST Nodes." />
     <MESSAGE value="Began working on Parser. Created and centralized similar data structures in Common.h." />
     <MESSAGE value="Split Operators and Assigners. Started parseAssign()." />
     <MESSAGE value="Figured out how to return a unique_ptr in the parsing functions." />
@@ -647,7 +631,8 @@
     <MESSAGE value="Lexer, Parser, and NameChecker work with null, no errors." />
     <MESSAGE value="I did something but I forgot what it was. Getting ready for major refactoring." />
     <MESSAGE value="Redesigned AST." />
-    <option name="LAST_COMMIT_MESSAGE" value="Redesigned AST." />
+    <MESSAGE value="Redesigned Parser." />
+    <option name="LAST_COMMIT_MESSAGE" value="Redesigned Parser." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
