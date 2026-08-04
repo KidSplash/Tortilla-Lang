@@ -4,68 +4,58 @@
 
 #include "Common.h"
 #include <vector>
+#include <variant>
 #include <memory>
 
+enum class nodeType {
+    Prgm,
+    Assign,
+    BinOp,
+    UnOp,
+    Basic,
+    Var,
+    None,
+};
 
+class Node;
+
+using AnyOp = std::variant<std::monostate, Operator, Keyword>;
+using node = std::variant<std::unique_ptr<Node>, std::monostate>;
+/*
+Assign (needs: Assigned DT, Expression DT, Name, IsDefinition, value, assigner)
+BinOp (needs: DataType 1 and 2, value 1 and 2, operator, isOpKey)
+UnOp (needs: DataType, value, operator, isOpKey)
+Var (needs: Name)
+Basic (needs: Value, DataType)
+List (needs: list of Nodes, list of Variables)
+*/
 class Node {
-public:
-    virtual ~Node() = default;
+public: //Assign, BinOp, UnOp, Basic
+    //Var = only name
     int line;
     int column;
-    Node(int l, int c);
-};
-class PrgmNode;
-class AssignNode;
-class BinOpNode;
-class UnOpNode;
-class BasicNode;
-class VarNode;
-
-using expression = std::variant<std::string, Node>;
-
-class PrgmNode : public Node {
-public:
-    std::vector<std::unique_ptr<Node>> list;
-    explicit PrgmNode(int l, int c, std::vector<std::unique_ptr<Node>> li);
-};
-class AssignNode : public Node {
-public:
-    DataType DT;
-    std::string name;
+    nodeType type;
+    DataType DT1;//Assigned, left, Expr, DT,
+    DataType DT2;//Expr, right, ---, ---,
+    std::string text;//Name, ---, ---, value,
     Assigner asig;
-    std::unique_ptr<Node> value;
-    bool declaration;
-    explicit AssignNode(int l, int c, DataType d, std::string n, Assigner a, std::unique_ptr<Node> v, bool dec);
+    AnyOp oper;
+    node node1;//value, left, Expr, ---,
+    node node2;//---, right, ---, ---,
+    bool specifier;//isDeclaration, isOpKey, isOpKey, ---,
+    explicit Node(int l=0, int c=0, nodeType t=nodeType::None,
+        DataType dt1=DataType::None, DataType dt2=DataType::None, std::string n="",
+        node n1={}, node n2={}, bool s=false, Assigner a=Assigner::None, AnyOp o={});
 };
-class BinOpNode : public Node {
+
+class PrgmNode {
 public:
-    Val oper;
-    std::unique_ptr<Node> exprLeft;
-    std::unique_ptr<Node> exprRight;
-    bool isOpKey;
-    DataType DT;
-    explicit BinOpNode(int l, int c, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType dt);
-};
-class UnOpNode : public Node {
-public:
-    Val oper;
-    std::unique_ptr<Node> expr;
-    bool isOpKey;
-    DataType DT;
-    explicit UnOpNode(int l, int c, Val o, std::unique_ptr<Node> e, bool isOp, DataType dt);
-};
-class BasicNode : public Node {
-public:
-    Kind type;
-    std::string value;
-    DataType DT;
-    explicit BasicNode(int l, int c, Kind t, std::string v, DataType dt);
-};
-class VarNode : public Node {
-public:
-    std::string name;
-    DataType DT;
-    explicit VarNode(int l, int c, std::string n, DataType dt);
+    int line;
+    int column;
+    nodeType type;
+    std::vector<node> list;
+    std::vector<Variable> variables;
+    explicit PrgmNode(int l, int c, nodeType t, std::vector<node> li, std::vector<Variable> v);
 };
 
 struct AST {

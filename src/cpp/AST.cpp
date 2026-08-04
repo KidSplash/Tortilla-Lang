@@ -1,42 +1,26 @@
 #include "AST.h"
 #include <utility>
 
-Node::Node(int l, int c) {
+PrgmNode::PrgmNode (int l, int c, nodeType t, std::vector<node> li, std::vector<Variable> v) {
     line = l;
     column = c;
-}
-
-PrgmNode::PrgmNode (int l, int c, std::vector<std::unique_ptr<Node>> li) : Node(l, c) {
-    list = std::move(li);
-}
-AssignNode::AssignNode (int l, int c,  DataType d, std::string n, Assigner a, std::unique_ptr<Node> v, bool dec) : Node(l, c) {
-    DT = d;
-    name = std::move(n);
-    asig = a;
-    value = std::move(v);
-    declaration = dec;
-}
-BinOpNode::BinOpNode (int l, int c, Val o, std::unique_ptr<Node> li, std::unique_ptr<Node> r, bool isOp, DataType d) : Node(l, c) {
-    oper = std::move(o);
-    exprLeft = std::move(li);
-    exprRight = std::move(r);
-    DT = d;
-    isOpKey = isOp;
-}
-UnOpNode::UnOpNode (int l, int c, Val o, std::unique_ptr<Node> e, bool isOp, DataType d) : Node(l, c) {
-    isOpKey = isOp;
-    oper = std::move(o);
-    expr = std::move(e);
-    DT = d;
-}
-BasicNode::BasicNode(int l, int c, Kind t, std::string v, DataType d) : Node(l, c) {
     type = t;
-    value = v;
-    DT = d;
+    list = std::move(li);
+    variables = v;
 }
-VarNode::VarNode (int l, int c, std::string n, DataType d) : Node(l, c) {
-    name = std::move(n);
-    DT = d;
+Node::Node (int l, int c, nodeType t, DataType dt1, DataType dt2,
+    std::string n, node n1, node n2, bool s, Assigner a, AnyOp o) {
+    line = l;
+    column = c;
+    type = t;
+    DT1 = dt1;
+    DT2 = dt2;
+    text = n;
+    asig = a;
+    oper = o;
+    node1 = std::move(n1);
+    node2 = std::move(n2);
+    specifier = s;
 }
 /*
 State > (Assign, Expr)
