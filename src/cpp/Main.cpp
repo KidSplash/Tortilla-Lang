@@ -1,15 +1,12 @@
 #include <iostream>
 #include <string>
 
-#include "Debug.h"
 #include "Common.h"
 #include "lexer.h"
 #include "error.h"
 #include "AST.h"
 #include "parser.h"
-#include "Semantic.h"
 
-//TODO: Fix Name Checker overuse of N01 error. Test Type Checker.
 int main() {
     std::string code = R"(
 #Comment Test
@@ -47,11 +44,10 @@ d = "dfads"
 
     std::vector<Token> tokens = tokenize(code);
     //decodeTokens(tokens);
-    PrgmNode ast1(0, 0, {});
+    PrgmNode ast1(0, 0, {}, {});
     ast1 = parse(tokens);
-    //decodeAST(std::move(ast1));
-    struct AST ast2 = nameCheckAST(std::move(ast1));
-    struct AST ast3 = typeCheckAST(std::move(ast2));
+    //struct AST ast2 = nameCheckAST(std::move(ast1));
+    //struct AST ast3 = typeCheckAST(std::move(ast2));
     errorsPrint(errorSettings);
 
 

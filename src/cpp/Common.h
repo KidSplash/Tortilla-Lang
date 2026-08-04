@@ -49,7 +49,7 @@ enum class Pass {
     TypeCheck,
 };
 
-using Val = std::variant<std::string, Operator, Assigner, Keyword, int>;
+using Val = std::variant<std::monostate, std::string, Operator, Assigner, Keyword>;
 
 class Token {
 public:

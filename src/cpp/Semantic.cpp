@@ -1,7 +1,7 @@
 #include "Semantic.h"
 #include "error.h"
 
-Variable::Variable(DataType dt, bool hbd) {
+/*Variable::Variable(DataType dt, bool hbd) {
     DT = dt;
     hasBeenDefined = hbd;
 };
@@ -83,7 +83,7 @@ in: expr-col > bool
 has: col-expr > bool
 +=, -=, *=, /=, %=, =: var-expr > none
 ++, –: var- > none
-*/
+*//*
 
 
 //Type Checker
@@ -222,4 +222,4 @@ DataType typeCheckBinOp(BinOpNode* node) {
 }
 DataType typeCheckBasic(BasicNode* node) {
     return kindToDataType[node->type];
-}
+}*/
