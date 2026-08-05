@@ -1,14 +1,14 @@
 #include "AST.h"
 #include <utility>
 
-PrgmNode::PrgmNode (int l, int c, std::vector<node> li, std::vector<Variable> v) {
+PrgmNode::PrgmNode (int l, int c, std::vector<std::unique_ptr<Node>> li, std::vector<Variable> v) {
     line = l;
     column = c;
     list = std::move(li);
     variables = v;
 }
 Node::Node (int l, int c, nodeType t, DataType dt1, DataType dt2,
-    std::string n, node n1, node n2, bool s, Assigner a, Val o) {
+    std::string n, std::unique_ptr<Node> n1, std::unique_ptr<Node> n2, bool s, Assigner a, Val o) {
     line = l;
     column = c;
     type = t;

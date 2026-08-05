@@ -17,5 +17,7 @@ add_executable(Tortilla
         Common.h
         Semantic.h
         Semantic.cpp
+        LLVMGen.h
+        LLVMGen.cpp
 
 )

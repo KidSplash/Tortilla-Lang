@@ -91,6 +91,13 @@ build CMakeFiles/Tortilla.dir/Semantic.cpp.o: CXX_COMPILER__Tortilla_unscanned_D
   OBJECT_DIR = CMakeFiles/Tortilla.dir
   OBJECT_FILE_DIR = CMakeFiles/Tortilla.dir
 
+build CMakeFiles/Tortilla.dir/LLVMGen.cpp.o: CXX_COMPILER__Tortilla_unscanned_Debug /Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/LLVMGen.cpp || cmake_object_order_depends_target_Tortilla
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles/Tortilla.dir/LLVMGen.cpp.o.d
+  FLAGS = -g -std=gnu++2b -arch arm64 -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/Tortilla.dir
+  OBJECT_FILE_DIR = CMakeFiles/Tortilla.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Tortilla
@@ -99,7 +106,7 @@ build CMakeFiles/Tortilla.dir/Semantic.cpp.o: CXX_COMPILER__Tortilla_unscanned_D
 #############################################
 # Link the executable Tortilla
 
-build Tortilla: CXX_EXECUTABLE_LINKER__Tortilla_Debug CMakeFiles/Tortilla.dir/main.cpp.o CMakeFiles/Tortilla.dir/lexer.cpp.o CMakeFiles/Tortilla.dir/error.cpp.o CMakeFiles/Tortilla.dir/AST.cpp.o CMakeFiles/Tortilla.dir/parser.cpp.o CMakeFiles/Tortilla.dir/Semantic.cpp.o
+build Tortilla: CXX_EXECUTABLE_LINKER__Tortilla_Debug CMakeFiles/Tortilla.dir/main.cpp.o CMakeFiles/Tortilla.dir/lexer.cpp.o CMakeFiles/Tortilla.dir/error.cpp.o CMakeFiles/Tortilla.dir/AST.cpp.o CMakeFiles/Tortilla.dir/parser.cpp.o CMakeFiles/Tortilla.dir/Semantic.cpp.o CMakeFiles/Tortilla.dir/LLVMGen.cpp.o
   CONFIG = Debug
   FLAGS = -g -arch arm64
   LINK_FLAGS = -Wl,-search_paths_first -Wl,-headerpad_max_install_names

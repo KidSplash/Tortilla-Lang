@@ -10,12 +10,9 @@ AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable>& glob
     int i = 0;
     std::unordered_map<std::string, Variable> vars {};
     while (i < prgm.list.size()) {
-        const auto& child = std::get<std::unique_ptr<Node>>(prgm.list[i]);
-        if (child) {
-            if (nameCheckNode(*child, globalVars) != 0) {
-                prgm.list.erase(prgm.list.begin() + i);
-                --i;
-            }
+        if (nameCheckNode(*prgm.list[i], globalVars) != 0) {
+            prgm.list.erase(prgm.list.begin() + i);
+            --i;
         }
         ++i;
     }
@@ -42,26 +39,21 @@ int nameCheckAssign(Node& self, std::unordered_map<std::string, Variable>& globa
             errorAdd(error::N01, Pass::NameCheck, self.line, self.column);
             return 1;
         }
-        const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
-        out = nameCheckNode(*child, globalVars);
+        out = nameCheckNode(*self.node1, globalVars);
         return out;
     }
-    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
-    out = nameCheckNode(*child, globalVars);
+    out = nameCheckNode(*self.node1, globalVars);
     globalVars.insert({self.text, Variable(self.DT1, true)});
     return out;
 }
 int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
     int out = 0;
-    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
-    out = nameCheckNode(*child, globalVars);
-    const auto& child2 = std::get<std::unique_ptr<Node>>(self.node2);
-    out += nameCheckNode(*child2, globalVars);
+    out = nameCheckNode(*self.node1, globalVars);
+    out += nameCheckNode(*self.node2, globalVars);
     return out;
 }
 int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
-    const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
-    return nameCheckNode(*child, globalVars);
+    return nameCheckNode(*self.node1, globalVars);
 }
 int nameCheckVar(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
     if (!globalVars.contains(self.text)) {
@@ -109,8 +101,157 @@ has: col-expr > bool
 ++, –: var- > none
 */
 /*
+Type Checker:
+int Assign(Node, vars):
+check value = DataType
+
+int BinOp():
+check left DataType and right DataType
+fold if both are BasicNodes
+
+int UnOp():
+check DataType
+fold if value is BasicNode
+*/
+
+
+void typeCheckPrgm(PrgmNode& prgm, std::unordered_map<std::string, Variable>& globalVars) {
+    int i = 0;
+    while (i < prgm.list.size()) {
+        if (typeCheckNode(*prgm.list[i], globalVars).valid == false) {
+            prgm.list.erase(prgm.list.begin() + i);
+            --i;
+        }
+        ++i;
+    }
+}
+typeChecked typeCheckNode(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    switch (self.type) {
+        case(nodeType::Assign):
+            return typeCheckAssign(self, globalVars);
+        case(nodeType::Var):
+            return typeCheckVar(self, globalVars);
+        case(nodeType::Basic):
+            return typeCheckVar(self, globalVars);
+        case(nodeType::BinOp):
+            return typeCheckBinOp(self, globalVars);
+        case(nodeType::UnOp):
+            return typeCheckUnOp(self, globalVars);
+        default:
+            return {DataType::None, false};
+    }
+}
+typeChecked typeCheckAssign(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    typeChecked value = typeCheckNode(*self.node1, globalVars);
+    if (self.DT1 == value.DT) {
+
+    }
+    return {DataType::None, false, ""};
+}
+typeChecked typeCheckBinOp(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    typeChecked left = typeCheckNode(*self.node1, globalVars);
+    typeChecked right = typeCheckNode(*self.node2, globalVars);
+    if (left.valid == false or right.valid == false) {
+        return {DataType::None, false, ""};
+    }
+    if (self.spec == true) {
+        Keyword oper = std::get<Keyword>(self.oper);
+        if (oper == Keyword::_not) {
+            if (value.DT == DataType::Bool) {
+                return {DataType::Bool, true, value.value};
+            }
+            //wrong DT
+        }
+    }
+    else {
+        Operator oper = std::get<Operator>(self.oper);
+        if (oper == Operator::BitNot or oper == Operator::Minus) {
+            if (value.DT == DataType::Int or value.DT == DataType::Bigint or value.DT == DataType::Float or value.DT == DataType::Doub) {
+                return {value.DT, true, value.value};
+            }
+            //wrong DT
+        }
+    }
+    return {DataType::None, false, ""};
+    return {DataType::None, false, ""};
+}
+typeChecked typeCheckUnOp(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    typeChecked value = typeCheckNode(*self.node1, globalVars);
+    if (value.valid == false) {
+        return {DataType::None, false, ""};
+    }
+    if (self.spec == true) {
+        Keyword oper = std::get<Keyword>(self.oper);
+        if (oper == Keyword::_not) {
+            if (value.DT == DataType::Bool) {
+                return {DataType::Bool, true, value.value};
+            }
+            //wrong DT
+        }
+    }
+    else {
+        Operator oper = std::get<Operator>(self.oper);
+        if (oper == Operator::BitNot or oper == Operator::Minus) {
+            if (value.DT == DataType::Int or value.DT == DataType::Bigint or value.DT == DataType::Float or value.DT == DataType::Doub) {
+                return {value.DT, true, value.value};
+            }
+            //wrong DT
+        }
+    }
+    return {DataType::None, false, ""};
+}
+/*
+    **  //int, bigint, float, doub > int, bigin, float, doub
+    *  //int, bigint, float, doub > int, bigin, float, doub
+    /  //float, doub, int, bigint > float, doub
+    %  //int, bigin, float, doub > int, bigin, float, doub
+    +  //int, bigin, float, doub > int, bigin, float, doub / char > char / bool > int
+    -  //int, bigin, float, doub > int, bigin, float, doub / char > char / bool > int
+    >>  //int, bigin, float, doub > int, bigin, float, doub
+    <<  //int, bigin, float, doub > int, bigin, float, doub
+    |  //int, bigin, float, doub > int, bigin, float, doub
+    ^  //int, bigin, float, doub > int, bigin, float, doub
+    &  //int, bigin, float, doub > int, bigin, float, doub
+    <  //int, bigin, float, doub > bool
+    >  //int, bigin, float, doub > bool
+    <=  //int, bigin, float, doub > bool
+    >=  //int, bigin, float, doub > bool
+    is  //anything > bool
+    and  //bool > bool
+    or  //bool > bool
+    xor  //bool > bool
+    nor  //bool > bool
+
+*/
+    /*
+    if (node->isOpKey == true) {
+        Keyword oper = std::get<Keyword>(node->oper);
+        if (oper == Keyword::_not) {
+            return DataType::Bool;
+        }
+        errorAdd(error::A00, Pass::TypeCheck, node->line, node->column);
+        return DataType::None;
+    }
+    DataType out = typeCheckNode(std::move(node->expr));
+    if (out == DataType::Bigint || out == DataType::Int || out == DataType::Doub || out == DataType::Float) {
+        return out;
+    }
+    errorAdd(error::T02, Pass::TypeCheck, node->line, node->column);
+    return DataType::None;*/
+
+typeChecked typeCheckVar(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    if (globalVars.contains(self.text)) {
+        return {globalVars.at(self.text).DT, true, ""};
+    }
+    return {DataType::None, false, self.text};
+}
+typeChecked typeCheckBasic(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
+    return {self.DT1, true, self.text};
+}
+
+
 //Type Checker
-AST typeCheckAST(AST ast) {
+/*AST typeCheckAST(AST ast) {
     int i = 0;
     AST newAst = {ast.vars, ast.ast};
     while (i < ast.ast.list.size()) {

@@ -11,7 +11,7 @@ PrgmNode parse (const std::vector<Token>& code) {
     }
     return out;
 }
-node parseState(const std::vector<Token>& code, int& i) {
+std::unique_ptr<Node> parseState(const std::vector<Token>& code, int& i) {
     std::cout << "\n";
     if (code.at(i).kind == Kind::Keyword) {
         if (isDataType(std::get<Keyword>(code.at(i).val))) {
@@ -27,14 +27,14 @@ node parseState(const std::vector<Token>& code, int& i) {
     }
     return pratt(code, i, 0);
 }
-node parseAssign(const std::vector<Token>& code, int& i, const std::string &output) {
+std::unique_ptr<Node> parseAssign(const std::vector<Token>& code, int& i, const std::string &output) {
     std::string outputDT;
     DataType DT;
     int line = code.at(i).line;
     int column = code.at(i).column;
     std::string Name;
     Assigner Asig;
-    node val;
+    std::unique_ptr<Node> val = nullptr;
     if (output == "") {
         outputDT = fromKeywords[std::get<Keyword>(code.at(i).val)];
         DT = toDataType.at(std::get<Keyword>(code.at(i).val));
@@ -62,12 +62,11 @@ node parseAssign(const std::vector<Token>& code, int& i, const std::string &outp
     else {
         errorAdd(error::P02, Pass::Parser, code.at(i).line, code.at(i).column);
         Asig = Assigner::None;
-        val = {};
     }
     std::cout << ")";
-    return std::make_unique<Node>(line, column, nodeType::Assign, DT, DataType::None, Name, std::move(val), std::monostate{}, (outputDT != "?"), Asig, std::monostate{});
+    return std::make_unique<Node>(line, column, nodeType::Assign, DT, DataType::None, Name, std::move(val), nullptr, (outputDT != "?"), Asig, std::monostate{});
 }
-node parseVar(const std::vector<Token> &code, int& i) {
+std::unique_ptr<Node> parseVar(const std::vector<Token> &code, int& i) {
     std::cout << "Var [" << std::get<std::string>(code.at(i).val) << "]";
     int line = code.at(i).line;
     int column = code.at(i).column;
@@ -84,21 +83,21 @@ node parseVar(const std::vector<Token> &code, int& i) {
             }
         }
     }
-    return std::make_unique<Node>(line, column, nodeType::Var, DataType::None, DataType::None, name, std::monostate{}, std::monostate{}, false, Assigner::None, std::monostate{});
+    return std::make_unique<Node>(line, column, nodeType::Var, DataType::None, DataType::None, name, nullptr, nullptr, false, Assigner::None, std::monostate{});
 }
 
-node pratt(const std::vector<Token> &code, int &i, const int minBP) {
+std::unique_ptr<Node> pratt(const std::vector<Token> &code, int &i, const int minBP) {
     if (code.at(i).kind == Kind::Stop) {
-        return std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, DataType::None, DataType::None, "", std::monostate{}, std::monostate{}, false, Assigner::None, std::monostate{});
+        return std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, DataType::None, DataType::None, "", nullptr, nullptr, false, Assigner::None, std::monostate{});
     }
     std::cout << "Pratt(";
     int lineNum = code.at(i).line;
     int columnNum = code.at(i).column;
     Val val = code.at(i).val;
-    node left;
-    node right;
+    std::unique_ptr<Node> left;
+    std::unique_ptr<Node> right;
     if (code.at(i).kind == Kind::Int || code.at(i).kind == Kind::Float || code.at(i).kind == Kind::Bool || code.at(i).kind == Kind::Str) {
-        left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, kindToDataType[code.at(i).kind], DataType::None, std::get<std::string>(code.at(i).val), std::monostate{}, std::monostate{}, false, Assigner::None, std::monostate{});
+        left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, kindToDataType[code.at(i).kind], DataType::None, std::get<std::string>(code.at(i).val), nullptr, nullptr, false, Assigner::None, std::monostate{});
         std::cout << " num ";
         //pass num
         ++i;
@@ -108,7 +107,7 @@ node pratt(const std::vector<Token> &code, int &i, const int minBP) {
     }
     else if (code.at(i).kind == Kind::Keyword) {
         if (std::get<Keyword>(code.at(i).val) == Keyword::_null) {
-            left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, DataType::Null, DataType::None, "null", std::monostate{}, std::monostate{}, false, Assigner::None, std::monostate{});
+            left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::Basic, DataType::Null, DataType::None, "null", nullptr, nullptr, false, Assigner::None, std::monostate{});
             std::cout << " num ";
             //pass num
             ++i;
@@ -119,10 +118,10 @@ node pratt(const std::vector<Token> &code, int &i, const int minBP) {
             std::cout << " unOp ";
             ++i; // pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<Node>(lineNum, columnNum, nodeType::UnOp, DataType::None, DataType::None, "", std::move(right), std::monostate{}, false, Assigner::None, *opPtr);
+            left = std::make_unique<Node>(lineNum, columnNum, nodeType::UnOp, DataType::None, DataType::None, "", std::move(right), nullptr, false, Assigner::None, *opPtr);
         }
         else if (*opPtr == Operator::Lpar) {
-            std::vector<node> elems = {};
+            std::vector<std::unique_ptr<Node>> elems = {};
             bool escape = true;
             bool commas = false;
             ++i;
@@ -148,7 +147,7 @@ node pratt(const std::vector<Token> &code, int &i, const int minBP) {
             std::cout << " unOp ";
             ++i; //pass operator
             right = pratt(code, i, 90);
-            left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::UnOp, DataType::None, DataType::None, "", std::move(right), std::monostate{}, true, Assigner::None, *keyPtr);
+            left = std::make_unique<Node>(code.at(i).line, code.at(i).column, nodeType::UnOp, DataType::None, DataType::None, "", std::move(right), nullptr, true, Assigner::None, *keyPtr);
         }
     }
     bool loopCheck = i < code.size();

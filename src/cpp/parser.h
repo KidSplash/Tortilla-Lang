@@ -8,10 +8,10 @@
 
 
 PrgmNode parse(const std::vector<Token>& code);
-node parseState(const std::vector<Token>& code, int& i);
-node parseAssign(const std::vector<Token>& code, int& i, const std::string &output = "");
-node parseVar(const std::vector<Token>& code, int& i);
-node pratt(const std::vector<Token>& code, int& i, int minBP);
+std::unique_ptr<Node> parseState(const std::vector<Token>& code, int& i);
+std::unique_ptr<Node> parseAssign(const std::vector<Token>& code, int& i, const std::string &output = "");
+std::unique_ptr<Node> parseVar(const std::vector<Token>& code, int& i);
+std::unique_ptr<Node> pratt(const std::vector<Token>& code, int& i, int minBP);
 /*
 State > (Assign, Expr)
 
