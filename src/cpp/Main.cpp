@@ -51,8 +51,9 @@ d = "dfads"
     AST ast2 = nameCheckPrgm(std::move(ast1), globals);
     //struct AST ast3 = typeCheckAST(std::move(ast2));
     errorsPrint(errorSettings);
-
-
+    for (const auto& [key, value] : ast2.globals) {
+        std::cout << key << '\n';
+    }
 
     return 0;
 }

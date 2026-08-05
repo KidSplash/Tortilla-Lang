@@ -28,12 +28,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Redesigned Parser.">
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Rewrote NameChecker, still some bugs.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/Semantic.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/Tortilla" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,15 +194,7 @@
       <workItem from="1784302016916" duration="8691000" />
       <workItem from="1784388990550" duration="56868000" />
       <workItem from="1785616946349" duration="12592000" />
-      <workItem from="1785795372246" duration="12450000" />
-    </task>
-    <task id="LOCAL-00020" summary="Mar 22">
-      <option name="closed" value="true" />
-      <created>1774233864327</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1774233864327</updated>
+      <workItem from="1785795372246" duration="18310000" />
     </task>
     <task id="LOCAL-00021" summary="Mar 23">
       <option name="closed" value="true" />
@@ -584,7 +580,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785818600184</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Rewrote NameChecker, still some bugs.">
+      <option name="closed" value="true" />
+      <created>1785860050987</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1785860050987</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +611,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Began working on Parser. Created and centralized similar data structures in Common.h." />
     <MESSAGE value="Split Operators and Assigners. Started parseAssign()." />
     <MESSAGE value="Figured out how to return a unique_ptr in the parsing functions." />
     <MESSAGE value="Finished Pratt Function and parseAssign, began parseVar." />
@@ -632,7 +635,8 @@
     <MESSAGE value="I did something but I forgot what it was. Getting ready for major refactoring." />
     <MESSAGE value="Redesigned AST." />
     <MESSAGE value="Redesigned Parser." />
-    <option name="LAST_COMMIT_MESSAGE" value="Redesigned Parser." />
+    <MESSAGE value="Rewrote NameChecker, still some bugs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Rewrote NameChecker, still some bugs." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

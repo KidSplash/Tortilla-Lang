@@ -5,12 +5,12 @@
 #include "Common.h"
 #include "AST.h"
 
-AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable> globalVars);
-int nameCheckNode(Node &self, std::unordered_map<std::string, Variable> globalVars);
-int nameCheckAssign(Node &self, std::unordered_map<std::string, Variable> globalVars);
-int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable> globalVars);
-int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable> globalVars);
-int nameCheckVar(Node &self, std::unordered_map<std::string, Variable> globalVars);
+AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable>& globalVars);
+int nameCheckNode(Node &self, std::unordered_map<std::string, Variable>& globalVars);
+int nameCheckAssign(Node &self, std::unordered_map<std::string, Variable>& globalVars);
+int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable>& globalVars);
+int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable>& globalVars);
+int nameCheckVar(Node &self, std::unordered_map<std::string, Variable>& globalVars);
 
 /*void hoister(PrgmNode node);   //Dont need this till add Functions
 

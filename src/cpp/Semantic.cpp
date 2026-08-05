@@ -6,7 +6,7 @@ Variable::Variable(DataType dt, bool hbd) {
     hasBeenDefined = hbd;
 }
 
-AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable> globalVars) {
+AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable>& globalVars) {
     int i = 0;
     std::unordered_map<std::string, Variable> vars {};
     while (i < prgm.list.size()) {
@@ -14,13 +14,14 @@ AST nameCheckPrgm(PrgmNode prgm, std::unordered_map<std::string, Variable> globa
         if (child) {
             if (nameCheckNode(*child, globalVars) != 0) {
                 prgm.list.erase(prgm.list.begin() + i);
+                --i;
             }
         }
         ++i;
     }
     return {std::move(prgm), globalVars};
 }
-int nameCheckNode(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+int nameCheckNode(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
     switch (self.type) {
         case(nodeType::Assign):
             return nameCheckAssign(self, globalVars);
@@ -34,7 +35,7 @@ int nameCheckNode(Node &self, std::unordered_map<std::string, Variable> globalVa
             return 0;
     }
 }
-int nameCheckAssign(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+int nameCheckAssign(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
     int out = 0;
     if (globalVars.contains(self.text)) {
         if (self.spec == true) {
@@ -50,7 +51,7 @@ int nameCheckAssign(Node &self, std::unordered_map<std::string, Variable> global
     globalVars.insert({self.text, Variable(self.DT1, true)});
     return out;
 }
-int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
     int out = 0;
     const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
     out = nameCheckNode(*child, globalVars);
@@ -58,11 +59,11 @@ int nameCheckBinOp(Node &self, std::unordered_map<std::string, Variable> globalV
     out += nameCheckNode(*child2, globalVars);
     return out;
 }
-int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+int nameCheckUnOp(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
     const auto& child = std::get<std::unique_ptr<Node>>(self.node1);
     return nameCheckNode(*child, globalVars);
 }
-int nameCheckVar(Node &self, std::unordered_map<std::string, Variable> globalVars) {
+int nameCheckVar(Node &self, std::unordered_map<std::string, Variable>& globalVars) {
     if (!globalVars.contains(self.text)) {
         errorAdd(error::N02, Pass::NameCheck, self.line, self.column);
         globalVars.insert({self.text, Variable(DataType::None, true)});
@@ -85,34 +86,7 @@ AST nameCheckAST(PrgmNode node) {
         ++i;
     }
     return {vars, std::move(node)};
-}*//*
-int nameCheckAssign(AssignNode* node, std::unordered_map<std::string, Variable>& vars) {
-    std::cout << node->name << ":" << fromDataType[node->DT] << "\n";
-    if (vars.contains(node->name)) {
-        if (node->declaration == false) {
-            return 0;
-        }
-        errorAdd(error::N01, Pass::NameCheck, node->line, node->column);
-        return 1;
-    }
-    vars.insert({node->name, Variable(node->DT, true)});
-    return 0;
-}
-void nameCheckUnOp(UnOpNode* node, std::unordered_map<std::string, Variable>& vars) {
-    nameCheckNode(std::move(node->expr), vars);
-}
-void nameCheckBinOp(BinOpNode* node, std::unordered_map<std::string, Variable>& vars) {
-    nameCheckNode(std::move(node->exprLeft), vars);
-    nameCheckNode(std::move(node->exprRight), vars);
-}
-int nameCheckVar(VarNode* node, std::unordered_map<std::string, Variable>& vars) {
-    if (!vars.contains(node->name)) {
-        errorAdd(error::N02, Pass::NameCheck, node->line, node->column);
-        vars.insert({node->name, Variable(DataType::None, true)});
-        return 1;
-    }
-    return 0;
-}
+}*/
 /*
 expr = anything
 num = int, float, bigint, doub
@@ -133,9 +107,8 @@ in: expr-col > bool
 has: col-expr > bool
 +=, -=, *=, /=, %=, =: var-expr > none
 ++, –: var- > none
-*//*
-
-
+*/
+/*
 //Type Checker
 AST typeCheckAST(AST ast) {
     int i = 0;
