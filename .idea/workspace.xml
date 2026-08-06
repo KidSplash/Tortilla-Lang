@@ -28,25 +28,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Fixed NameChecker.">
-      <change afterPath="$PROJECT_DIR$/src/cpp/LLVMGen.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cpp/LLVMGen.h" afterDir="false" />
+    <list default="true" id="cd8a0eb6-49c9-48c1-956f-82ba500ba7c6" name="Changes" comment="Finished Basic, Val, and UnOp TypeChecking.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/AST.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/AST.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cpp/Semantic.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/Semantic.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-d91383ad9eac37cee93c.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/index-2026-08-04T04-40-20-0669.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.cmake/api/v1/reply/target-Tortilla-Debug-f583579d5e02d24c2a3e.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/cmake-build-debug/compile_commands.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cmake-build-debug/compile_commands.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cpp/parser.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/parser.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,15 +193,7 @@
       <workItem from="1784302016916" duration="8691000" />
       <workItem from="1784388990550" duration="56868000" />
       <workItem from="1785616946349" duration="12592000" />
-      <workItem from="1785795372246" duration="24547000" />
-    </task>
-    <task id="LOCAL-00022" summary="Mar 23">
-      <option name="closed" value="true" />
-      <created>1774319312707</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1774319312707</updated>
+      <workItem from="1785795372246" duration="26919000" />
     </task>
     <task id="LOCAL-00023" summary="Apr 11">
       <option name="closed" value="true" />
@@ -602,7 +579,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785954390416</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Finished Basic, Val, and UnOp TypeChecking.">
+      <option name="closed" value="true" />
+      <created>1785973495940</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1785973495940</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -625,7 +610,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Figured out how to return a unique_ptr in the parsing functions." />
     <MESSAGE value="Finished Pratt Function and parseAssign, began parseVar." />
     <MESSAGE value="Test" />
     <MESSAGE value="Added 3 lines of code." />
@@ -650,7 +634,8 @@
     <MESSAGE value="Redesigned Parser." />
     <MESSAGE value="Rewrote NameChecker, still some bugs." />
     <MESSAGE value="Fixed NameChecker." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed NameChecker." />
+    <MESSAGE value="Finished Basic, Val, and UnOp TypeChecking." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Basic, Val, and UnOp TypeChecking." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

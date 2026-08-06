@@ -14,6 +14,8 @@ int nameCheckVar(Node &self, std::unordered_map<std::string, Variable>& globalVa
 
 /*void hoister(PrgmNode node);   //Dont need this till add Functions*/
 
+DataType checkNum(DataType left, DataType right);
+
 void typeCheckPrgm(PrgmNode& prgm, std::unordered_map<std::string, Variable>& globalVars);
 typeChecked typeCheckNode(Node& self, std::unordered_map<std::string, Variable>& globalVars);
 typeChecked typeCheckAssign(Node& self, std::unordered_map<std::string, Variable>& globalVars);

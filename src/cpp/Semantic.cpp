@@ -104,16 +104,29 @@ has: col-expr > bool
 Type Checker:
 int Assign(Node, vars):
 check value = DataType
-
-int BinOp():
-check left DataType and right DataType
-fold if both are BasicNodes
-
-int UnOp():
-check DataType
-fold if value is BasicNode
 */
 
+DataType checkNum(DataType left, DataType right) {
+    if (right == DataType::Char or right == DataType::None or right == DataType::Bool or left == DataType::Char or left == DataType::None or left == DataType::Bool) {
+        return DataType::None;
+    }
+    if (left == DataType::Doub or right == DataType::Doub) {
+        return DataType::Doub;
+    }
+    if (left == DataType::Float or right == DataType::Float) {
+        if (left == DataType::Bigint or right == DataType::Bigint) {
+            return DataType::Doub;
+        }
+        return DataType::Float;
+    }
+    if (left == DataType::Bigint or right == DataType::Bigint) {
+        return DataType::Bigint;
+    }
+    if (left == DataType::Int and right == DataType::Int) {
+        return DataType::Int;
+    }
+    return DataType::None;
+}
 
 void typeCheckPrgm(PrgmNode& prgm, std::unordered_map<std::string, Variable>& globalVars) {
     int i = 0;
@@ -156,23 +169,48 @@ typeChecked typeCheckBinOp(Node& self, std::unordered_map<std::string, Variable>
     }
     if (self.spec == true) {
         Keyword oper = std::get<Keyword>(self.oper);
-        if (oper == Keyword::_not) {
-            if (value.DT == DataType::Bool) {
-                return {DataType::Bool, true, value.value};
+        if (oper == Keyword::_and or oper == Keyword::_or or oper == Keyword::_xor or oper == Keyword::_nor) {
+            if (left.DT == DataType::Bool and right.DT == DataType::Bool) {
+                return {DataType::Bool, true, ""};
             }
             //wrong DT
+        }
+        else if (oper == Keyword::_is) {
+            return {DataType::Bool, true, ""};
         }
     }
     else {
         Operator oper = std::get<Operator>(self.oper);
-        if (oper == Operator::BitNot or oper == Operator::Minus) {
-            if (value.DT == DataType::Int or value.DT == DataType::Bigint or value.DT == DataType::Float or value.DT == DataType::Doub) {
-                return {value.DT, true, value.value};
+        if (oper == Operator::Gte or oper == Operator::Lte or oper == Operator::Less or oper == Operator::More) {
+            if (checkNum(left.DT, right.DT) != DataType::None) {
+                return {DataType::Bool, true, ""};
             }
-            //wrong DT
+        }
+        else if (oper == Operator::Divide) {
+            if (checkNum(left.DT, right.DT) != DataType::None) {
+                if (left.DT == DataType::Bigint or right.DT == DataType::Bigint or left.DT == DataType::Doub or right.DT == DataType::Doub) {
+                    return {DataType::Doub, true, ""};
+                }
+                return {DataType::Float, true, ""};
+            }
+        }
+        else if (oper == Operator::Plus) {
+            if (left.DT == DataType::Char or right.DT == DataType::Char) {
+                return {DataType::Char, true, ""};  //TODO: Update when strings are added
+            }
+            DataType out = checkNum(left.DT, right.DT);
+            if (out != DataType::None) {
+                return {out, true, ""};
+            }
+        }
+        else {
+            DataType out = checkNum(left.DT, right.DT);
+            if (out != DataType::None) {
+                return {out, true, ""};
+            }
         }
     }
-    return {DataType::None, false, ""};
+    //Wrong DataType Error
     return {DataType::None, false, ""};
 }
 typeChecked typeCheckUnOp(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
@@ -184,7 +222,7 @@ typeChecked typeCheckUnOp(Node& self, std::unordered_map<std::string, Variable>&
         Keyword oper = std::get<Keyword>(self.oper);
         if (oper == Keyword::_not) {
             if (value.DT == DataType::Bool) {
-                return {DataType::Bool, true, value.value};
+                return {DataType::Bool, true, ""};
             }
             //wrong DT
         }
@@ -193,52 +231,13 @@ typeChecked typeCheckUnOp(Node& self, std::unordered_map<std::string, Variable>&
         Operator oper = std::get<Operator>(self.oper);
         if (oper == Operator::BitNot or oper == Operator::Minus) {
             if (value.DT == DataType::Int or value.DT == DataType::Bigint or value.DT == DataType::Float or value.DT == DataType::Doub) {
-                return {value.DT, true, value.value};
+                return {value.DT, true, ""};
             }
             //wrong DT
         }
     }
     return {DataType::None, false, ""};
 }
-/*
-    **  //int, bigint, float, doub > int, bigin, float, doub
-    *  //int, bigint, float, doub > int, bigin, float, doub
-    /  //float, doub, int, bigint > float, doub
-    %  //int, bigin, float, doub > int, bigin, float, doub
-    +  //int, bigin, float, doub > int, bigin, float, doub / char > char / bool > int
-    -  //int, bigin, float, doub > int, bigin, float, doub / char > char / bool > int
-    >>  //int, bigin, float, doub > int, bigin, float, doub
-    <<  //int, bigin, float, doub > int, bigin, float, doub
-    |  //int, bigin, float, doub > int, bigin, float, doub
-    ^  //int, bigin, float, doub > int, bigin, float, doub
-    &  //int, bigin, float, doub > int, bigin, float, doub
-    <  //int, bigin, float, doub > bool
-    >  //int, bigin, float, doub > bool
-    <=  //int, bigin, float, doub > bool
-    >=  //int, bigin, float, doub > bool
-    is  //anything > bool
-    and  //bool > bool
-    or  //bool > bool
-    xor  //bool > bool
-    nor  //bool > bool
-
-*/
-    /*
-    if (node->isOpKey == true) {
-        Keyword oper = std::get<Keyword>(node->oper);
-        if (oper == Keyword::_not) {
-            return DataType::Bool;
-        }
-        errorAdd(error::A00, Pass::TypeCheck, node->line, node->column);
-        return DataType::None;
-    }
-    DataType out = typeCheckNode(std::move(node->expr));
-    if (out == DataType::Bigint || out == DataType::Int || out == DataType::Doub || out == DataType::Float) {
-        return out;
-    }
-    errorAdd(error::T02, Pass::TypeCheck, node->line, node->column);
-    return DataType::None;*/
-
 typeChecked typeCheckVar(Node& self, std::unordered_map<std::string, Variable>& globalVars) {
     if (globalVars.contains(self.text)) {
         return {globalVars.at(self.text).DT, true, ""};
