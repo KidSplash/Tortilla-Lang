@@ -40,5 +40,11 @@
   "command": "/usr/bin/c++ -g -std=gnu++2b -arch arm64 -fcolor-diagnostics -o CMakeFiles/Tortilla.dir/LLVMGen.cpp.o -c /Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/LLVMGen.cpp",
   "file": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/LLVMGen.cpp",
   "output": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/LLVMGen.cpp.o"
+},
+{
+  "directory": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug",
+  "command": "/usr/bin/c++ -g -std=gnu++2b -arch arm64 -fcolor-diagnostics -o CMakeFiles/Tortilla.dir/learn.cpp.o -c /Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/learn.cpp",
+  "file": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/learn.cpp",
+  "output": "/Users/spencerwhite/CLionProjects/Tortilla-lang/src/cpp/cmake-build-debug/CMakeFiles/Tortilla.dir/learn.cpp.o"
 }
 ]
